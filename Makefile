@@ -1,6 +1,8 @@
+CC = gcc
 ARGS = -Wall -std=gnu11 -ggdb -O0
+LIB = -lncurses
 
-ALL = utils.o
+ALL = utils.o main.o
 EXECUTABLES = tester snake
 
 default: clean-snake snake
@@ -12,7 +14,7 @@ debug: default
 
 # shell main
 snake: ${ALL}
-	${CC} ${ARGS} $@.c ${ALL} -o $@
+	${CC} ${ARGS} $@.c ${ALL} -o $@ ${LIB}
 
 # separate compilation point for testing reasons
 tester: ${ALL}
@@ -20,6 +22,9 @@ tester: ${ALL}
 
 utils.o:
 	${CC} ${ARGS} -c utils.c
+
+main.o:
+	${CC} ${ARGS} -c main.c
 
 objects: ${ALL}
 
