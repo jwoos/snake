@@ -1,11 +1,14 @@
 #include <ncurses.h>
 
+#include "menu.h"
+
 int main(int argc, char* argv[]) {
 	// start ncurses
 	initscr();
+	clear();
 
 	/* pass EVERYTHING as keycodes, even ignoring signals
-	 * disables buffering
+	 * disables buffering and prints directly
 	 */
 	raw();
 
@@ -15,19 +18,18 @@ int main(int argc, char* argv[]) {
 	// don't echo while getting input
 	noecho();
 
-	// get user input
-	int ch = getch();
-	if (ch == KEY_UP) {
-		printw("Up arrow pressed");
-	} else {
-		printw("The pressed key is: ");
-		attron(A_BOLD);
-		printw("%c", ch);
-		attroff(A_BOLD);
-	}
-	refresh();
+	int maxX;
+	int maxY;
 
+	getmaxyx(stdscr, maxY, maxX);
+
+	mvprintw(0, 0, "x: %d y: %d", maxX, maxY);
 	getch();
+
+	/*menu();*/
+
+	// clear to end of line
+	clrtoeol();
 
 	// clean up ncurses
 	endwin();
