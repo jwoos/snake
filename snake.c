@@ -1,6 +1,8 @@
+#include <stdlib.h>
 #include <ncurses.h>
 
 #include "menu.h"
+#include "responsive.h"
 
 int main(int argc, char* argv[]) {
 	// start ncurses
@@ -18,15 +20,18 @@ int main(int argc, char* argv[]) {
 	// don't echo while getting input
 	noecho();
 
-	int maxX;
-	int maxY;
+	int* max = getMaxSize();
+	int MAX_X = max[0];
+	int MAX_Y = max[1];
 
-	getmaxyx(stdscr, maxY, maxX);
+	free(max);
 
-	mvprintw(0, 0, "x: %d y: %d", maxX, maxY);
+	mvprintw(MAX_Y - 1, MAX_X - 20, "x: %d y: %d", MAX_X, MAX_Y);
+	refresh();
 	getch();
+	clear();
 
-	/*menu();*/
+	menu();
 
 	// clear to end of line
 	clrtoeol();
