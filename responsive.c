@@ -23,3 +23,5 @@ int getCenter(int x, int y) {
 		max[1] = y;
 	}
 }
+
+int* center() {}

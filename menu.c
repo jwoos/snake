@@ -1,13 +1,12 @@
 #include "menu.h"
 
 char* menuChoices[] = {
-	"Option 1",
-	"Option 2",
-	"Option 3",
-	"Option 4"
+	"Start",
+	"Help",
+	"About"
 };
 
-int menuChoicesCount = sizeof(menuChoices) / sizeof(char*);
+unsigned int menuChoicesCount = sizeof(menuChoices) / sizeof(char*);
 
 void printMenu(WINDOW* menuWindow, int highlight) {
 	int x = 2;
@@ -24,6 +23,7 @@ void printMenu(WINDOW* menuWindow, int highlight) {
 		}
 		y++;
 	}
+
 	wrefresh(menuWindow);
 }
 
@@ -44,7 +44,8 @@ void menu() {
 	refresh();
 
 	printMenu(menuWindow, highlight);
-	while (1) {
+	unsigned int cont = 1;
+	while (cont) {
 		ch = wgetch(menuWindow);
 		switch (ch) {
 			case KEY_UP: {
@@ -80,7 +81,7 @@ void menu() {
 
 		printMenu(menuWindow, highlight);
 		if (choice != 0) {
-			break;
+			cont = 0;
 		}
 	}
 }

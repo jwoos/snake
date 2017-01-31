@@ -2,7 +2,7 @@ CC = gcc
 ARGS = -Wall -std=gnu11 -ggdb -O0
 LIB = -lncurses
 
-ALL = utils.o main.o menu.o responsive.o
+ALL = utils.o main.o menu.o responsive.o about.o
 EXECUTABLES = tester snake
 
 default: clean-snake snake
@@ -31,6 +31,9 @@ menu.o:
 
 responsive.o:
 	${CC} ${ARGS} -c responsive.c
+
+about.o:
+	${CC} ${ARGS} -c about.c
 
 objects: ${ALL}
 
