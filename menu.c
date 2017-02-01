@@ -1,4 +1,5 @@
 #include "menu.h"
+#include "responsive.h"
 
 char* menuChoices[] = {
 	"Start",
@@ -11,7 +12,6 @@ unsigned int menuChoicesCount = sizeof(menuChoices) / sizeof(char*);
 void printMenu(WINDOW* menuWindow, int highlight) {
 	int x = 2;
 	int y = 2;
-	box(menuWindow, 0, 0);
 
 	for (int i = 0; i < menuChoicesCount; i++) {
 		if (highlight == i + 1) {
@@ -32,15 +32,19 @@ void menu() {
 	int choice = 0;
 	int ch;
 
-	int WIDTH = 30;
-	int HEIGHT = 10;
+	int* MAX = getMaxSize();
 
-	int startx = (80 - WIDTH) / 2;
-	int starty = (24 - HEIGHT) / 2;
+	int maxWidth = MAX[0];
+	int maxHeight = MAX[1] - 20;
 
-	WINDOW* menuWindow = newwin(HEIGHT, WIDTH, starty, startx);
+	free(MAX);
+
+	int startx = center(maxWidth, MENU_WIDTH);
+	int starty = center(maxHeight, MENU_HEIGHT) + 20;
+
+	WINDOW* menuWindow = newwin(MENU_HEIGHT, MENU_WIDTH, starty, startx);
 	keypad(menuWindow, true);
-	mvprintw(0, 0, "Use arrow keys to go up and down, Press enter to select a choice");
+	mvprintw(5, center(maxWidth, 5), "SNAKE");
 	refresh();
 
 	printMenu(menuWindow, highlight);
@@ -72,14 +76,17 @@ void menu() {
 				break;
 			}
 
+			case 113: {
+				cont = 0;
+			}
+
 			default: {
-				mvprintw(24, 0, "Charcter pressed is = %3d Hopefully it can be printed as '%c'", ch, ch);
-				refresh();
 				break;
 			}
 		}
 
 		printMenu(menuWindow, highlight);
+
 		if (choice != 0) {
 			cont = 0;
 		}

@@ -6,8 +6,6 @@
 
 int* getMaxSize();
 
-int getCenter(int, int);
-
-int* center();
+int center();
 
 #endif

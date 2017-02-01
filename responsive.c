@@ -12,16 +12,7 @@ int* getMaxSize() {
 	return max;
 }
 
-// TODO finish implementing
-int getCenter(int x, int y) {
-	int* max = {0, 0};
-
-	if (!x || !y) {
-		max = getMaxSize();
-	} else if (x && y) {
-		max[0] = x;
-		max[1] = y;
-	}
+int center(int availableSize, int size) {
+	int start = (availableSize - size) / 2;
+	return start;
 }
-
-int* center() {}
