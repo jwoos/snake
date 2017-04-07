@@ -1,8 +1,8 @@
 CC = gcc
-ARGS = -Wall -std=gnu11 -ggdb -O0
-LIB = -lncurses
+CFLAGS = -Wall -std=gnu11 -ggdb -O0 -D_XOPEN_SOURCE -D_POSIX_C_SOURCE
+LDLIBS = -lncurses
 
-ALL = utils.o main.o menu.o
+OBJECTS = utils.o main.o menu.o
 EXECUTABLES = tester snake
 
 default: clean-snake snake
@@ -13,32 +13,24 @@ debug: default
 	valgrind --leak-check=full -v ./snake
 
 # shell main
-snake: ${ALL}
-	${CC} ${ARGS} $@.c ${ALL} -o $@ ${LIB}
+snake: snake.c ${OBJECTS}
 
 # separate compilation point for testing reasons
-tester: ${ALL}
-	${CC} ${ARGS} $@.c ${ALL} -o $@
+tester: tester.c ${OBJECTS}
 
-utils.o:
-	${CC} ${ARGS} -c utils.c
+objects: ${OBJECTS}
 
-main.o:
-	${CC} ${ARGS} -c main.c
-
-menu.o:
-	${CC} ${ARGS} -c menu.c
-
-objects: ${ALL}
+%.o: %.c
+	${CC} ${ARGS} -c $^ -o $@
 
 clean-tester: clean-objects
-	rm tester
+	touch tester && rm tester
 
 clean-snake: clean-objects
-	rm snake
+	touch snake && rm snake
 
 clean-objects:
-	rm ${ALL}
+	touch ${OBJECTS} && rm ${OBJECTS}
 
 clean-executables:
 	rm ${EXECUTABLES}
