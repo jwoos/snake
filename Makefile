@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -Wall -std=gnu11 -ggdb -O0 -D_XOPEN_SOURCE -D_POSIX_C_SOURCE
 LDLIBS = -lncurses
 
-OBJECTS = utils.o main.o menu.o
+OBJECTS = utils.o main.o menu.o responsive.o about.o
 EXECUTABLES = tester snake
 
 default: clean-snake snake
