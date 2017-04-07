@@ -1,6 +1,10 @@
 #include "main.h"
 
-void renderBox(uint32_t x, uint32_t y) {
+void renderBox() {
+	box(stdscr, '|', '-');
+}
+
+bool checkBoundary(Position p) {
 
 }
 

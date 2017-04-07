@@ -1,4 +1,5 @@
 #include <unistd.h>
+#include <time.h>
 #include <ncurses.h>
 
 #include "menu.h"
@@ -32,10 +33,17 @@ int main(int argc, char* argv[]) {
 	int maxY;
 
 	getmaxyx(stdscr, maxY, maxX);
-	box(stdscr, '|', '-');
+	renderBox();
 
-	int direction[] = {1, 0};
-	int position[] = {1, 1};
+	/* On a terminal:
+	 * for x positive is right while negative is left
+	 * for y positive is DOWN while negative is up
+	 */
+	Direction direction = {.x = 1, .y = 0};
+	Position position = {.x = 1, .y = 1};
+
+	// quarter of a second
+	struct timespec t = {.tv_sec = 0, .tv_nsec = 250000000};
 	bool run = TRUE;
 	int ch;
 
@@ -45,26 +53,26 @@ int main(int argc, char* argv[]) {
 
 		switch (ch) {
 			case KEY_UP: {
-				direction[0] = 0;
-				direction[1] = -1;
+				direction.x = 0;
+				direction.y = -1;
 				break;
 			}
 
 			case KEY_DOWN: {
-				direction[0] = 0;
-				direction[1] = 1;
+				direction.x = 0;
+				direction.y = 1;
 				break;
 			}
 
 			case KEY_RIGHT: {
-				direction[0] = 1;
-				direction[1] = 0;
+				direction.x = 1;
+				direction.y = 0;
 				break;
 			}
 
 			case KEY_LEFT: {
-				direction[0] = -1;
-				direction[1] = 0;
+				direction.x = -1;
+				direction.y = 0;
 				break;
 			}
 
@@ -78,28 +86,29 @@ int main(int argc, char* argv[]) {
 			}
 		}
 
-		if (direction[0]) {
-			position[0] += direction[0];
-		} else if (direction[1]) {
-			position[1] += direction[1];
+		if (direction.x) {
+			position.x += direction.x;
+		} else if (direction.y) {
+			position.y += direction.y;
 		}
 
-		if ((position[1] == 1 && direction[1] == -1) || (position[1] == maxY - 1 && direction[1] == 1)) {
+		if ((position.y == 1 && direction.y == -1) || (position.y == maxY - 1 && direction.y == 1)) {
 			break;
-		} else if ((position[0] == 1 && direction[0] == -1) || (position[0] == maxX - 1 && direction[0] == 1)) {
+		} else if ((position.x == 1 && direction.x == -1) || (position.x == maxX - 1 && direction.x == 1)) {
 			break;
 		}
 
-		box(stdscr, '|', '-');
-		mvprintw(position[1], position[0], "o");
+		renderBox();
+		mvprintw(position.y, position.x, "o");
 		refresh();
-		sleep(1);
-		/*nanosleep(1000000);*/
+		/*sleep(1);*/
+		nanosleep(&t);
 	}
 
 	nodelay(stdscr, FALSE);
 	refresh();
-	mvprintw(0, 0, "x: %d y: %d", position[0], position[1]);
+	mvprintw(1, 1, "x: %d y: %d", position.x, position.y);
+	mvprintw(2, 1, "Press any key to quit");
 	getch();
 
 	/*mvprintw(0, 0, "x: %d y: %d", maxX, maxY);*/
