@@ -1,26 +1,32 @@
 #ifndef SNAKE_MAIN_H
 #define SNAKE_MAIN_H
 
+
 #include <ncurses.h>
 #include <stdint.h>
 
-typedef struct {
+#include "global.h"
+
+
+struct Position {
 	int x;
 	int y;
 } Position;
 
-typedef struct {
+struct Direction {
 	int x;
 	int y;
 } Direction;
 
-typedef struct {
+struct Snake {
 	Position* positions;
 } Snake;
 
 void renderBox();
 
-bool checkBoundary(Position);
+void move(int);
+
+bool checkBoundary(struct Position);
 
 void renderSnake(uint32_t, uint32_t, uint32_t);
 

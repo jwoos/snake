@@ -1,2 +1,2 @@
-# c_snake
+# Snake
 Snake in C using ncurses

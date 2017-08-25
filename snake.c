@@ -2,6 +2,7 @@
 #include <time.h>
 #include <ncurses.h>
 
+#include "global.h"
 #include "menu.h"
 #include "main.h"
 
@@ -27,20 +28,20 @@ int main(int argc, char* argv[]) {
 	// don't show cursor
 	curs_set(FALSE);
 
-	int minX = 0;
-	int minY = 0;
-	int maxX;
-	int maxY;
-
-	getmaxyx(stdscr, maxY, maxX);
+	Config.minX = 0;
+	Config.minY = 0;
+	getmaxyx(stdscr, Config.maxX, Config.maxX);
 	renderBox();
 
 	/* On a terminal:
 	 * for x positive is right while negative is left
 	 * for y positive is DOWN while negative is up
 	 */
-	Direction direction = {.x = 1, .y = 0};
-	Position position = {.x = 1, .y = 1};
+	struct Direction direction = {.x = 1, .y = 0};
+	struct Position position = {.x = 1, .y = 1};
+
+	Config.position = &position;
+	Config.direction = &direction;
 
 	// quarter of a second
 	struct timespec t = {.tv_sec = 0, .tv_nsec = 250000000};
@@ -51,55 +52,10 @@ int main(int argc, char* argv[]) {
 		clear();
 		ch = getch();
 
-		switch (ch) {
-			case KEY_UP: {
-				direction.x = 0;
-				direction.y = -1;
-				break;
-			}
-
-			case KEY_DOWN: {
-				direction.x = 0;
-				direction.y = 1;
-				break;
-			}
-
-			case KEY_RIGHT: {
-				direction.x = 1;
-				direction.y = 0;
-				break;
-			}
-
-			case KEY_LEFT: {
-				direction.x = -1;
-				direction.y = 0;
-				break;
-			}
-
-			case 113: {
-				run = FALSE;
-				break;
-			}
-
-			default: {
-				break;
-			}
-		}
-
-		if (direction.x) {
-			position.x += direction.x;
-		} else if (direction.y) {
-			position.y += direction.y;
-		}
-
-		if ((position.y == 1 && direction.y == -1) || (position.y == maxY - 1 && direction.y == 1)) {
-			break;
-		} else if ((position.x == 1 && direction.x == -1) || (position.x == maxX - 1 && direction.x == 1)) {
-			break;
-		}
+		parseInput(ch);
 
 		renderBox();
-		mvprintw(position.y, position.x, "o");
+		mvprintw(position.y, position.x, "■");
 		refresh();
 		/*sleep(1);*/
 		nanosleep(&t);
