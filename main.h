@@ -3,6 +3,7 @@
 
 
 #include <ncurses.h>
+#include <stdlib.h>
 #include <stdint.h>
 
 #include "global.h"
@@ -19,12 +20,12 @@ struct Direction {
 } Direction;
 
 struct Snake {
-	Position* positions;
+	struct Position* positions;
 } Snake;
 
 void renderBox();
 
-void move(int);
+int parseInput(int);
 
 bool checkBoundary(struct Position);
 

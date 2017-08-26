@@ -31,39 +31,46 @@ int main(int argc, char* argv[]) {
 	Config.minX = 0;
 	Config.minY = 0;
 	getmaxyx(stdscr, Config.maxX, Config.maxX);
+
 	renderBox();
 
 	/* On a terminal:
 	 * for x positive is right while negative is left
 	 * for y positive is DOWN while negative is up
 	 */
-	struct Direction direction = {.x = 1, .y = 0};
-	struct Position position = {.x = 1, .y = 1};
+	struct Direction* direction = malloc(sizeof *direction);
+	direction -> x = 1;
+	direction -> y = 0;
 
-	Config.position = &position;
-	Config.direction = &direction;
+	struct Position* position = malloc(sizeof *position);
+	position -> x = 1;
+	position -> y = 1;
+
+	Config.position = position;
+	Config.direction = direction;
 
 	// quarter of a second
 	struct timespec t = {.tv_sec = 0, .tv_nsec = 250000000};
-	bool run = TRUE;
 	int ch;
+	int run = 0;
 
-	while (run) {
+	while (run > -1) {
 		clear();
 		ch = getch();
 
-		parseInput(ch);
+		run = parseInput(ch);
 
 		renderBox();
-		mvprintw(position.y, position.x, "■");
+		mvprintw(position -> y, position -> x, ".");
+		/*mvprintw(position -> y, position -> x, "■");*/
 		refresh();
-		/*sleep(1);*/
-		nanosleep(&t);
+
+		nanosleep(&t, NULL);
 	}
 
 	nodelay(stdscr, FALSE);
 	refresh();
-	mvprintw(1, 1, "x: %d y: %d", position.x, position.y);
+	mvprintw(1, 1, "x: %d y: %d", position -> x, position -> y);
 	mvprintw(2, 1, "Press any key to quit");
 	getch();
 

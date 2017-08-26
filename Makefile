@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -std=gnu11 -ggdb -O0 -D_XOPEN_SOURCE -D_POSIX_C_SOURCE
+CFLAGS = -Wall -std=gnu11 -ggdb -O0
 LDLIBS = -lncurses
 
 OBJECTS = utils.o main.o responsive.o
