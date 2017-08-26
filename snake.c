@@ -7,6 +7,9 @@
 #include "main.h"
 
 int main(int argc, char* argv[]) {
+	// set locale to support wide character
+	setlocale(LC_CTYPE, "");
+
 	// start ncurses
 	initscr();
 	clear();
@@ -61,8 +64,8 @@ int main(int argc, char* argv[]) {
 		run = parseInput(ch);
 
 		renderBox();
-		mvprintw(position -> y, position -> x, ".");
-		/*mvprintw(position -> y, position -> x, "■");*/
+		/*mvprintw(position -> y, position -> x, ".");*/
+		mvprintw(position -> y, position -> x, "■");
 		refresh();
 
 		nanosleep(&t, NULL);

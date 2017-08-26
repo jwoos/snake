@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -Wall -std=gnu11 -ggdb -O0
-LDLIBS = -lncurses
+LDLIBS = -lncursesw
 
 OBJECTS = utils.o main.o responsive.o
 EXECUTABLES = snake

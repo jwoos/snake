@@ -2,6 +2,7 @@
 #define SNAKE_MAIN_H
 
 
+#include <locale.h>
 #include <ncurses.h>
 #include <stdlib.h>
 #include <stdint.h>
