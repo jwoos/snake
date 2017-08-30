@@ -55,16 +55,17 @@ int main(int argc, char* argv[]) {
 	// quarter of a second
 	struct timespec t = {.tv_sec = 0, .tv_nsec = 250000000};
 	int ch;
+	bool boundaryOkay = true;
 	int run = 0;
 
-	while (run > -1) {
+	while (run > -1 && boundaryOkay) {
 		clear();
 		ch = getch();
 
 		run = parseInput(ch);
 
 		renderBox();
-		/*mvprintw(position -> y, position -> x, ".");*/
+		boundaryOkay = checkBoundary();
 		mvprintw(position -> y, position -> x, "■");
 		refresh();
 
@@ -87,6 +88,9 @@ int main(int argc, char* argv[]) {
 
 	// clean up ncurses
 	endwin();
+
+	free(position);
+	free(direction);
 
 	return 0;
 }

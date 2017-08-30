@@ -28,7 +28,7 @@ void renderBox();
 
 int parseInput(int);
 
-bool checkBoundary(struct Position);
+bool checkBoundary(struct Position*);
 
 void renderSnake(uint32_t, uint32_t, uint32_t);
 

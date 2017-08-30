@@ -62,8 +62,18 @@ int parseInput(int ch) {
 	return 1;
 }
 
-bool checkBoundary(struct Position p) {
-	return true;
+bool checkBoundary(struct Position* p) {
+	bool okay = true;
+
+	// it hit top or left
+	if (p -> y <=0 || p -> y >= config.maxy) {
+
+	} else if (p -> x <=0 || p -> x >= Config.maxX) {
+
+	}
+
+
+	return okay;
 }
 
 void renderSnake(uint32_t length, uint32_t x, uint32_t y) {
