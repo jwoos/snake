@@ -33,7 +33,7 @@ int main(int argc, char* argv[]) {
 
 	Config.minX = 0;
 	Config.minY = 0;
-	getmaxyx(stdscr, Config.maxX, Config.maxX);
+	getmaxyx(stdscr, Config.maxY, Config.maxX);
 
 	renderBox();
 
@@ -65,23 +65,19 @@ int main(int argc, char* argv[]) {
 		run = parseInput(ch);
 
 		renderBox();
-		boundaryOkay = checkBoundary();
 		mvprintw(position -> y, position -> x, "■");
 		refresh();
 
 		nanosleep(&t, NULL);
+		boundaryOkay = checkBoundary(position);
 	}
 
 	nodelay(stdscr, FALSE);
 	refresh();
 	mvprintw(1, 1, "x: %d y: %d", position -> x, position -> y);
-	mvprintw(2, 1, "Press any key to quit");
+	mvprintw(2, 1, "max x: %d max y: %d", Config.maxX, Config.maxY);
+	mvprintw(3, 1, "Press any key to quit");
 	getch();
-
-	/*mvprintw(0, 0, "x: %d y: %d", maxX, maxY);*/
-	/*wborder(stdscr, '|', '|', '-', '-', '+', '+', '+', '+');*/
-
-	/*menu();*/
 
 	// clear to end of line
 	clrtoeol();
