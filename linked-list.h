@@ -26,4 +26,17 @@ ListNode* listNodeConstruct(void*, ListNode*);
 
 void listNodeDeconstruct(ListNode*);
 
+void listPush(List*, void*);
+
+ListNode* listPop(List*);
+
+ListNode* listGet(List*, int);
+
+void listSet(List*, int, void*);
+
+void listDelete(List*, int);
+
+void listClear(List*);
+
+
 #endif
