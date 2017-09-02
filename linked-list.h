@@ -2,13 +2,15 @@
 #define SNAKE_LINKED_LIST_H
 
 
+#include <stdint.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 
 
 typedef struct List {
-	struct List* head;
-	struct List* tail;
+	struct ListNode* head;
+	struct ListNode* tail;
 	uint32_t size;
 } List;
 
@@ -22,7 +24,7 @@ List* listConstruct(ListNode*);
 
 void listDeconstruct(List*);
 
-ListNode* listNodeConstruct(void*, ListNode*);
+ListNode* listNodeConstruct(void*, ListNode*, ListNode*);
 
 void listNodeDeconstruct(ListNode*);
 

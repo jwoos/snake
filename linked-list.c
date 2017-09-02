@@ -22,12 +22,20 @@ void listDeconstruct(List* list) {
 	list = NULL;
 }
 
-ListNode* listNodeConstruct(void* data, ListNode* next) {
+ListNode* listNodeConstruct(void* data, ListNode* previous, ListNode* next) {
 	ListNode* node = malloc(sizeof *node);
 
 	node -> data = data;
+
 	node -> next = next;
-	next -> prev = NULL;
+	if (next) {
+		next -> previous = node;
+	}
+
+	node -> previous = previous;
+	if (previous) {
+		previous -> next = node;
+	}
 
 	return node;
 }
@@ -42,10 +50,8 @@ void listNodeDeconstruct(ListNode* node) {
 void listPush(List* list, void* data) {
 	ListNode* tail = list -> tail;
 
-	ListNode* newElem = listNodeInitialize(data, NULL);
+	ListNode* newElem = listNodeConstruct(data, tail, NULL);
 
-	tail -> next = newElem;
-	newElem -> previous = tail;
 	list -> tail = newElem;
 	list -> size++;
 }
@@ -54,7 +60,7 @@ ListNode* listPop(List* list) {
 	ListNode* tail = list -> tail;
 	ListNode* current = tail -> previous;
 
-	previous -> next = NULL;
+	current -> next = NULL;
 	tail -> previous = NULL;
 
 	list -> tail = current;
@@ -68,9 +74,10 @@ ListNode* listGet(List* list, int index) {
 		printf("Element not found at index %d - outside of range\n", index);
 		return NULL;
 	}
+	ListNode* node;
 
 	if (index <= (list -> size) / 2) {
-		ListNode* node = list -> head;
+		node = list -> head;
 
 		int i = 0;
 		while (i < index) {
@@ -83,7 +90,7 @@ ListNode* listGet(List* list, int index) {
 			}
 		}
 	} else {
-		ListNode* node = list -> tail;
+		node = list -> tail;
 
 		int i = list -> size - 1;
 		while (i > index) {
@@ -101,7 +108,7 @@ ListNode* listGet(List* list, int index) {
 }
 
 void listSet(List* list, int index, void* newData) {
-	ListNode* atIndex = listGetElement(list, index);
+	ListNode* atIndex = listGet(list, index);
 
 	if (atIndex == NULL) {
 		printf("Not setting - aborting...\n");
@@ -113,25 +120,19 @@ void listSet(List* list, int index, void* newData) {
 }
 
 void listInsert(List* list, int index, void* newData) {
-	ListNode* previous = listGetElement(list, index - 1);
-	ListNode* newNode = listNodeInitialize(newData, previous -> next);
-	ListNode* next = previous -> next;
-
-	newNode -> previous = previous;
-
-	previous -> next = newNode;
-	next -> previous = newNode;
+	ListNode* previous = listGet(list, index - 1);
+	listNodeConstruct(newData, previous, previous -> next);
 
 	list -> size++;
 }
 
 void listDelete(List* list, int index) {
-	ListNode* previous = listGetElement(list, index - 1);
+	ListNode* previous = listGet(list, index - 1);
 	ListNode* temp = previous -> next;
 	ListNode* next = temp -> next;
 
 	previous -> next = next;
-	next -> previous = previous
+	next -> previous = previous;
 
 	listNodeDeconstruct(temp);
 	list -> size--;

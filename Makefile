@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -Wall -std=gnu11 -ggdb -O0
 LDLIBS = -lncursesw
 
-OBJECTS = utils.o main.o responsive.o
+OBJECTS = utils.o main.o responsive.o linked-list.o
 EXECUTABLES = snake
 
 default: clean-snake snake
