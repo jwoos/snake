@@ -4,9 +4,9 @@ void renderBox() {
 	box(stdscr, 0, 0);
 }
 
-int parseInput(int ch) {
-	struct Direction* direction = Config.direction;
-	struct Position* position = Config.position;
+int parseInput(Snake* snake, int ch) {
+	struct Direction* direction = snake -> direction;
+	struct Position* position = snake -> positions -> head;
 
 	switch (ch) {
 		case 'w':

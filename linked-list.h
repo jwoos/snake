@@ -40,5 +40,7 @@ void listDelete(List*, int);
 
 void listClear(List*);
 
+void listPrint(List*);
+
 
 #endif

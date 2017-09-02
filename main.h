@@ -7,26 +7,20 @@
 #include <stdlib.h>
 #include <stdint.h>
 
+#include "direction.h"
+#include "linked-list.h"
+#include "position.h"
 #include "global.h"
 
 
-struct Position {
-	int x;
-	int y;
-} Position;
-
-struct Direction {
-	int x;
-	int y;
-} Direction;
-
-struct Snake {
-	struct Position* positions;
+typedef struct Snake {
+	struct List* positions;
+	struct Direction* direction;
 } Snake;
 
 void renderBox();
 
-int parseInput(int);
+int parseInput(Snake*, int);
 
 bool checkBoundary(struct Position*);
 

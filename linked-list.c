@@ -152,3 +152,26 @@ void listClear(List* list) {
 	list -> tail = NULL;
 	list -> size = 0;
 }
+
+void listNodePrint(ListNode* node, bool data) {
+	if (data) {
+		printf("%d", *(int*)(node -> data));
+	} else {
+		printf("%p", node);
+	}
+}
+
+void listPrint(List* list) {
+	ListNode* current = list -> head;
+
+	while (current != NULL) {
+		listNodePrint(current, false);
+		printf("[");
+		listNodePrint(current, true);
+		printf("]");
+		printf(" -> ");
+		current = current -> next;
+	}
+
+	printf("\n");
+}

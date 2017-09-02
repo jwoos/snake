@@ -11,8 +11,6 @@ struct Config {
 	uint32_t maxX;
 	uint32_t maxY;
 
-	struct Position* position;
-	struct Direction* direction;
 	struct Snake* snake;
 } Config;
 

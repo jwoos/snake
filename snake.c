@@ -2,9 +2,12 @@
 #include <time.h>
 #include <ncurses.h>
 
+#include "direction.h"
 #include "global.h"
+#include "linked-list.h"
 #include "menu.h"
 #include "main.h"
+#include "position.h"
 
 int main(int argc, char* argv[]) {
 	// set locale to support wide character
@@ -37,20 +40,10 @@ int main(int argc, char* argv[]) {
 
 	renderBox();
 
-	/* On a terminal:
-	 * for x positive is right while negative is left
-	 * for y positive is DOWN while negative is up
-	 */
-	struct Direction* direction = malloc(sizeof *direction);
-	direction -> x = 1;
-	direction -> y = 0;
-
-	struct Position* position = malloc(sizeof *position);
-	position -> x = 1;
-	position -> y = 1;
-
-	Config.position = position;
-	Config.direction = direction;
+	Direction* direction = constructDirection(DIRECTION_RIGHT, DIRECTION_NONE);
+	Position* position = constructPosition(1, 1);
+	ListNode* head = constructListNode(position, NULL, NULL);
+	List* positions = constructList(head);
 
 	// quarter of a second
 	struct timespec t = {.tv_sec = 0, .tv_nsec = 250000000};
