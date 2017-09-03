@@ -1,8 +1,30 @@
 #include "snake.h"
 
 
+Snake* snakeConstruct() {
+	Snake* snake = malloc(sizeof *snake);
+
+	Direction* direction = directionConstruct(DIRECTION_RIGHT, DIRECTION_NONE);
+	Position* position = positionConstruct(1, 1);
+	ListNode* head = listNodeConstruct(position, NULL, NULL);
+	List* positions = listConstruct(head);
+
+	snake -> body = positions;
+	snake -> direction = direction;
+
+	return snake;
+}
+
+void snakeDeconstruct(Snake* snake) {
+	directionDeconstruct(snake -> direction);
+	listClear(snake -> body);
+	listDeconstruct(snake -> body);
+	free(snake);
+	snake = NULL;
+}
+
 bool snakeCheckBoundary(Snake* snake) {
-	Position* p = snake -> head -> data;
+	Position* p = snake -> body -> head -> data;
 	bool okay = true;
 
 	// it hit top or left
@@ -13,4 +35,9 @@ bool snakeCheckBoundary(Snake* snake) {
 	}
 
 	return okay;
+}
+
+void snakeRender(Snake* snake) {
+	Position* position = snake -> body -> head -> data;
+	mvprintw(position -> y, position -> x, "■");
 }

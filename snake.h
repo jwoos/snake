@@ -14,11 +14,17 @@
 
 
 typedef struct Snake {
-	struct List* positions;
+	struct List* body;
 	struct Direction* direction;
 } Snake;
 
-bool snakeCheckBoundary(Snake* snake);
+Snake* snakeConstruct();
+
+void snakeDeconstruct(Snake*);
+
+bool snakeCheckBoundary(Snake*);
+
+void snakeRender(Snake*);
 
 
 #endif

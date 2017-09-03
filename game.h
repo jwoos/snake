@@ -2,11 +2,31 @@
 #define SNAKE_GAME_H
 
 
-void renderBox();
+#include <unistd.h>
+#include <time.h>
+#include <ncurses.h>
 
-void parseInput(int);
+#include "direction.h"
+#include "global.h"
+#include "linked-list.h"
+#include "menu.h"
+#include "snake.h"
+#include "position.h"
+
+
+void ncursesSetup();
+
+void ncursesTeardown();
+
+void gameSetup();
+
+void gameTeardown();
+
+Direction parseInput(int);
 
 int validateMove(Position* position, Direction* direction);
+
+void gameEndScreen();
 
 
 #endif
