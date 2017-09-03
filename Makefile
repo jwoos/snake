@@ -2,16 +2,16 @@ CC = gcc
 CFLAGS = -Wall -std=gnu11 -ggdb -O0
 LDLIBS = -lncursesw
 
-OBJECTS = utils.o main.o responsive.o linked-list.o position.o direction.o
+OBJECTS = utils.o snake.o responsive.o linked-list.o position.o direction.o game.o
 EXECUTABLES = snake tester
 
-default: clean-executables tester
+default: clean snake
 
 debug: default
 	valgrind --leak-check=full -v ./snake
 
 # shell main
-snake: snake.c ${OBJECTS}
+snake: main.c ${OBJECTS}
 
 tester: tester.c ${OBJECTS}
 

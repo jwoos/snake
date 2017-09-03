@@ -1,7 +1,7 @@
 #include "direction.h"
 
 
-Direction* constructDirection(int x, int y) {
+Direction* directionConstruct(int x, int y) {
 	Direction* direction = malloc(sizeof *direction);
 
 	direction -> x = x;
@@ -10,7 +10,18 @@ Direction* constructDirection(int x, int y) {
 	return direction;
 }
 
-void deconstructDirection(Direction* direction) {
+void directionDeconstruct(Direction* direction) {
 	free(direction);
 	direction = NULL;
+}
+
+
+void directionSetX(Direction* direction, int newX) {
+	direction -> y = DIRECTION_NONE;
+	direction -> x = newX;
+}
+
+void directionSetY(Direction* direction, int newY) {
+	direction -> x = DIRECTION_NONE;
+	direction -> y = newY;
 }

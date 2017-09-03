@@ -10,9 +10,13 @@ typedef struct Position {
 	int y;
 } Position;
 
-Position* constructPosition(int, int);
+Position* positionConstruct(int, int);
 
-void deconstructPosition(Position*);
+void positionDeconstruct(Position*);
+
+void positionIncrementX(Position*);
+
+void positionIncrementY(Position*);
 
 
 #endif

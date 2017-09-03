@@ -1,80 +1,87 @@
-#include "main.h"
+#include <unistd.h>
+#include <time.h>
+#include <ncurses.h>
 
-void renderBox() {
-	box(stdscr, 0, 0);
-}
+#include "direction.h"
+#include "global.h"
+#include "linked-list.h"
+#include "menu.h"
+#include "snake.h"
+#include "position.h"
 
-int parseInput(Snake* snake, int ch) {
-	struct Direction* direction = snake -> direction;
-	struct Position* position = snake -> positions -> head;
+int main(int argc, char* argv[]) {
+	// set locale to support wide character
+	setlocale(LC_CTYPE, "");
 
-	switch (ch) {
-		case 'w':
-		case KEY_UP: {
-			direction -> x = 0;
-			direction -> y = -1;
-			break;
-		}
+	// start ncurses
+	initscr();
+	clear();
 
-		case 's':
-		case KEY_DOWN: {
-			direction -> x = 0;
-			direction -> y = 1;
-			break;
-		}
+	/* pass EVERYTHING as keycodes, even ignoring signals
+	 * disables buffering and prints directly
+	 */
+	raw();
 
-		case 'd':
-		case KEY_RIGHT: {
-			direction -> x = 1;
-			direction -> y = 0;
-			break;
-		}
+	// Take non alphanumeric keys
+	keypad(stdscr, TRUE);
 
-		case 'a':
-		case KEY_LEFT: {
-			direction -> x = -1;
-			direction -> y = 0;
-			break;
-		}
+	// don't echo while getting input
+	noecho();
 
-		case 113: {
-			return -1;
-			break;
-		}
+	// no delay
+	nodelay(stdscr, TRUE);
 
-		default: {
-			break;
-		}
+	// don't show cursor
+	curs_set(FALSE);
+
+	Config.minX = 0;
+	Config.minY = 0;
+	getmaxyx(stdscr, Config.maxY, Config.maxX);
+
+	// quarter of a second
+	Config.timespec.tv_sec = 0;
+	Config.timespec.tv_nsec = 250000000;
+
+	renderBox();
+
+	Direction* direction = directionConstruct(DIRECTION_RIGHT, DIRECTION_NONE);
+	Position* position = positionConstruct(1, 1);
+	ListNode* head = listNodeConstruct(position, NULL, NULL);
+	List* positions = listConstruct(head);
+
+	int ch;
+	bool boundaryOkay = true;
+	int run = 0;
+
+	while (run > -1 && boundaryOkay) {
+		clear();
+		ch = getch();
+
+		run = parseInput(ch);
+
+		renderBox();
+		mvprintw(position -> y, position -> x, "■");
+		refresh();
+
+		nanosleep(&Config.timespec, NULL);
+		boundaryOkay = checkBoundary(position);
 	}
 
-	if (direction -> x) {
-		position -> x += direction -> x;
-	} else if (direction -> y) {
-		position -> y += direction -> y;
-	}
+	nodelay(stdscr, FALSE);
+	refresh();
+	mvprintw(1, 1, "x: %d y: %d", position -> x, position -> y);
+	mvprintw(2, 1, "max x: %d max y: %d", Config.maxX, Config.maxY);
+	mvprintw(3, 1, "Press any key to quit");
+	getch();
 
-	if ((position -> y == 1 && direction -> y == -1) || (position -> y == Config.maxY - 1 && direction -> y == 1)) {
-		return 0;
-	} else if ((position -> x == 1 && direction -> x == -1) || (position -> x == Config.maxX - 1 && direction -> x == 1)) {
-		return 0;
-	}
+	// clear to end of line
+	clrtoeol();
 
-	return 1;
-}
+	// clean up ncurses
+	endwin();
 
-bool checkBoundary(struct Position* p) {
-	bool okay = true;
+	free(position);
+	free(direction);
 
-	// it hit top or left
-	if (p -> y <= Config.minY || p -> y >= Config.maxY) {
-		okay = false;
-	} else if (p -> x <= Config.minX || p -> x >= Config.maxX) {
-		okay = false;
-	}
-
-	return okay;
-}
-
-void renderSnake(uint32_t length, uint32_t x, uint32_t y) {
-
+	return 0;
 }

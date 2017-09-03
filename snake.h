@@ -1,5 +1,5 @@
-#ifndef SNAKE_MAIN_H
-#define SNAKE_MAIN_H
+#ifndef SNAKE_SNAKE_H
+#define SNAKE_SNAKE_H
 
 
 #include <locale.h>
@@ -18,12 +18,7 @@ typedef struct Snake {
 	struct Direction* direction;
 } Snake;
 
-void renderBox();
+bool snakeCheckBoundary(Snake* snake);
 
-int parseInput(Snake*, int);
-
-bool checkBoundary(struct Position*);
-
-void renderSnake(uint32_t, uint32_t, uint32_t);
 
 #endif

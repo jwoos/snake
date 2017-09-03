@@ -2,7 +2,7 @@
 #define SNAKE_GLOBAL_H
 
 
-#include "main.h"
+#include "snake.h"
 
 
 struct Config {
@@ -12,6 +12,7 @@ struct Config {
 	uint32_t maxY;
 
 	struct Snake* snake;
+	struct timespec timespec;
 } Config;
 
 

@@ -21,9 +21,13 @@ typedef struct Direction {
 	int y;
 } Direction;
 
-Direction* constructDirection(int, int);
+Direction* directionConstruct(int, int);
 
-void deconstructDirection(Direction*);
+void directionDeconstruct(Direction*);
+
+void directionSetX(Direction*, int);
+
+void directionSetY(Direction*, int);
 
 
 #endif
