@@ -15,6 +15,8 @@
 #define DIRECTION_DOWN 1
 #define DIRECTION_NONE 0
 
+// errors
+
 
 typedef struct Direction {
 	int x;
@@ -28,6 +30,10 @@ void directionDeconstruct(Direction*);
 void directionSetX(Direction*, int);
 
 void directionSetY(Direction*, int);
+
+void directionSetRaw(Direction* const);
+
+int directionValidate(const Direction* const);
 
 
 #endif

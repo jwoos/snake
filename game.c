@@ -85,13 +85,15 @@ Direction parseInput(int ch) {
 		}
 
 		// quit
-		case 113: {
+		case 'q': {
 			direction.x = 0;
 			direction.y = 0;
 			break;
 		}
 
 		default: {
+			direction.x = 0;
+			direction.y = 0;
 			break;
 		}
 	}
@@ -99,7 +101,7 @@ Direction parseInput(int ch) {
 	return direction;
 }
 
-int validateMove(Position* position, Direction* direction) {
+int validateMove(const Position* const position, const Direction* const direction) {
 	if (!direction -> x && !direction -> y) {
 		return -1;
 	}

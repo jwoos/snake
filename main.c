@@ -21,9 +21,14 @@ int main(int argc, char* argv[]) {
 		snakeRender(snake);
 
 		direction = parseInput(ch);
-		if (validateMove(snake -> body -> head -> data, &direction) == -1) {
+		if (!direction.x && !direction.y) {
 			break;
 		}
+		/*
+		 *if (validateMove(snake -> body -> head -> data, &direction) == -1) {
+		 *    break;
+		 *}
+		 */
 
 		if (direction.x) {
 			position -> x += direction.x;

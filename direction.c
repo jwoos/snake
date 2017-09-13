@@ -25,3 +25,10 @@ void directionSetY(Direction* direction, int newY) {
 	direction -> x = DIRECTION_NONE;
 	direction -> y = newY;
 }
+
+void directionSetRaw(Direction* const direction) {
+}
+
+int directionValidate(const Direction* const direction) {
+	return 0;
+}
