@@ -2,6 +2,8 @@
 #define SNAKE_GLOBAL_H
 
 
+#include <time.h>
+
 #include "snake.h"
 
 
