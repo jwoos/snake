@@ -4,7 +4,7 @@
 Snake* snakeConstruct() {
 	Snake* snake = malloc(sizeof *snake);
 
-	Direction* direction = directionConstruct(DIRECTION_RIGHT, DIRECTION_NONE);
+	Direction* direction = directionConstruct(DIRECTION_ORIENTATION_RIGHT);
 	Position* position = positionConstruct(1, 1);
 	ListNode* head = listNodeConstruct(position, NULL, NULL);
 	List* positions = listConstruct(head);

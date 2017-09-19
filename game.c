@@ -52,50 +52,38 @@ void gameTeardown() {
 
 }
 
-Direction parseInput(int ch) {
-	Direction direction;
+DirectionOrientation parseInput(int ch) {
+	DirectionOrientation direction;
 
 	switch (ch) {
 		case 'w':
-		case KEY_UP: {
-			direction.x = 0;
-			direction.y = -1;
+		case KEY_UP:
+			direction = DIRECTION_ORIENTATION_UP;
 			break;
-		}
 
 		case 's':
-		case KEY_DOWN: {
-			direction.x = 0;
-			direction.y = 1;
+		case KEY_DOWN:
+			direction = DIRECTION_ORIENTATION_DOWN;
 			break;
-		}
 
 		case 'd':
-		case KEY_RIGHT: {
-			direction.x = 1;
-			direction.y = 0;
+		case KEY_RIGHT:
+			direction = DIRECTION_ORIENTATION_RIGHT;
 			break;
-		}
 
 		case 'a':
-		case KEY_LEFT: {
-			direction.x = -1;
-			direction.y = 0;
+		case KEY_LEFT:
+			direction = DIRECTION_ORIENTATION_LEFT;
 			break;
-		}
 
 		// quit
-		case 'q': {
-			direction.x = 0;
-			direction.y = 0;
+		case 'q':
+			direction = DIRECTION_ORIENTATION_NONE;
 			break;
-		}
 
-		default: {
-			direction.x = 0;
-			direction.y = 0;
+		default:
+			/*direction = Config.snake -> direction*/
 			break;
-		}
 	}
 
 	return direction;

@@ -12,20 +12,23 @@ int main(int argc, char* argv[]) {
 
 	int ch;
 	bool boundaryOkay = true;
-	Direction direction;
+	DirectionOrientation direction;
 
 	while (boundaryOkay) {
 		clear();
 		ch = getch();
 
+		box(stdscr, 0, 0);
 		snakeRender(snake);
 
 		direction = parseInput(ch);
-		if (!direction.x && !direction.y) {
+		directionSet(Config.snake -> direction, direction);
+
+		if (!Config.snake -> direction -> x && !Config.snake -> direction -> y) {
 			break;
 		}
 		/*
-		 *if (validateMove(snake -> body -> head -> data, &direction) == -1) {
+		 *if (directionValidate(snake -> body -> head -> data, &direction) == -1) {
 		 *    break;
 		 *}
 		 */
@@ -36,7 +39,6 @@ int main(int argc, char* argv[]) {
 			position -> y += direction.y;
 		}
 
-		box(stdscr, 0, 0);
 		refresh();
 		boundaryOkay = snakeCheckBoundary(snake);
 

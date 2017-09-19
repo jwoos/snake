@@ -22,7 +22,7 @@ void gameSetup();
 
 void gameTeardown();
 
-Direction parseInput(int);
+DirectionOrientation parseInput(DirectionOrientation);
 
 int validateMove(const Position* const position, const Direction* const direction);
 

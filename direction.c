@@ -1,38 +1,54 @@
 #include "direction.h"
 
 
-Direction* directionConstruct(DirectionDirection dir) {
+Direction* directionConstruct(DirectionOrientation dir) {
 	Direction* direction = malloc(sizeof *direction);
 
-	direction -> x = x;
-	direction -> y = y;
-	direction -> status = DIRECTION_STATUS_OKAY;
+	directionSet(direction, dir);
 
 	return direction;
 }
 
 void directionDeconstruct(Direction* direction) {
 	free(direction);
-	direction = NULL;
 }
 
-void directionSetX(Direction* direction, const DirectionDirection newX) {
-	direction -> y = DIRECTION_NONE;
+void directionSetX(Direction* direction, const DirectionOrientation newX) {
+	direction -> y = DIRECTION_ORIENTATION_NONE;
 	direction -> x = newX;
 }
 
-void directionSetY(Direction* direction, const newY) {
-	direction -> x = DIRECTION_NONE;
+void directionSetY(Direction* direction, const DirectionOrientation newY) {
+	direction -> x = DIRECTION_ORIENTATION_NONE;
 	direction -> y = newY;
 }
 
-void directionSet(Direction* direction, const DirectionDirection dir) {
+void directionSet(Direction* const direction, const DirectionOrientation dir) {
 	switch (dir) {
-		case DIRECTION_LEFT:
-			direction -> directionSetX()
+		case DIRECTION_ORIENTATION_LEFT:
+			directionSetX(direction, -1);
+			break;
+
+		case DIRECTION_ORIENTATION_RIGHT:
+			directionSetX(direction, 1);
+			break;
+
+		case DIRECTION_ORIENTATION_UP:
+			directionSetY(direction, -1);
+			break;
+
+		case DIRECTION_ORIENTATION_DOWN:
+			directionSetY(direction, 1);
+			break;
+
+		case DIRECTION_ORIENTATION_NONE:
+		default:
+			break;
 	}
+
+	direction -> status = DIRECTION_STATUS_OKAY;
 }
 
-int directionValidate(const Direction* const direction) {
+int directionValidate(const Direction* const Direction) {
 	return 0;
 }

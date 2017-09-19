@@ -9,13 +9,13 @@
  * for x positive is right while negative is left
  * for y positive is DOWN while negative is up
  */
-typedef enum DirectionDirection {
-	DIRECTION_LEFT=-2,
-	DIRECTION_UP=-1,
-	DIRECTION_NONE 0,
-	DIRECTION_RIGHT=1,
-	DIRECTION_DOWN=2
-} DirectionDirection;
+typedef enum DirectionOrientation {
+	DIRECTION_ORIENTATION_LEFT=-2,
+	DIRECTION_ORIENTATION_UP=-1,
+	DIRECTION_ORIENTATION_NONE=0,
+	DIRECTION_ORIENTATION_RIGHT=1,
+	DIRECTION_ORIENTATION_DOWN=2
+} DirectionOrientation;
 
 // errors
 typedef enum DirectionStatus {
@@ -26,12 +26,12 @@ typedef enum DirectionStatus {
 } DirectionStatus;
 
 typedef struct Direction {
-	DirectionDirection x;
-	DirectionDirection y;
+	DirectionOrientation x;
+	DirectionOrientation y;
 	DirectionStatus status;
 } Direction;
 
-Direction* directionConstruct(int, int);
+Direction* directionConstruct(DirectionOrientation);
 
 void directionDeconstruct(Direction*);
 
@@ -39,7 +39,7 @@ void directionSetX(Direction*, const int);
 
 void directionSetY(Direction*, const int);
 
-void directionSetRaw(Direction* const, const int, const int);
+void directionSet(Direction* const, const DirectionOrientation);
 
 int directionValidate(const Direction* const);
 
