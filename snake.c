@@ -20,7 +20,6 @@ void snakeDeconstruct(Snake* snake) {
 	listClear(snake -> body);
 	listDeconstruct(snake -> body);
 	free(snake);
-	snake = NULL;
 }
 
 bool snakeCheckBoundary(Snake* snake) {

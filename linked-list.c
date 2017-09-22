@@ -19,7 +19,6 @@ List* listConstruct(ListNode* node) {
 
 void listDeconstruct(List* list) {
 	free(list);
-	list = NULL;
 }
 
 ListNode* listNodeConstruct(void* data, ListNode* previous, ListNode* next) {
@@ -43,7 +42,6 @@ ListNode* listNodeConstruct(void* data, ListNode* previous, ListNode* next) {
 void listNodeDeconstruct(ListNode* node) {
 	free(node -> data);
 	free(node);
-	node = NULL;
 }
 
 

@@ -12,7 +12,6 @@ Position* positionConstruct(int x, int y) {
 
 void positionDeconstruct(Position* position) {
 	free(position);
-	position = NULL;
 }
 
 void positionIncrementX(Position* position) {
