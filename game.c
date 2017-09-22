@@ -40,9 +40,8 @@ void gameSetup() {
 	Config.minY = 0;
 	getmaxyx(stdscr, Config.maxY, Config.maxX);
 
-	// quarter of a second
-	Config.timespec.tv_sec = 0;
-	Config.timespec.tv_nsec = 250000000;
+	Config.timespec.tv_sec = TIMESPEC_SEC;
+	Config.timespec.tv_nsec = TIMESPEC_NANOSEC;
 
 	box(stdscr, 0, 0);
 	Config.snake = snakeConstruct();
