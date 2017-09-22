@@ -12,7 +12,7 @@ int main(int argc, char* argv[]) {
 
 	int ch;
 	bool boundaryOkay = true;
-	DirectionOrientation direction;
+	DirectionOrientation orientation;
 
 	while (boundaryOkay) {
 		clear();
@@ -21,22 +21,32 @@ int main(int argc, char* argv[]) {
 		box(stdscr, 0, 0);
 		snakeRender(snake);
 
-		direction = parseInput(ch);
-		directionSet(Config.snake -> direction, direction);
+		orientation = parseInput(ch);
+		directionSet(Config.snake -> direction, orientation);
 
-		if (!Config.snake -> direction -> x && !Config.snake -> direction -> y) {
+		if (Config.snake -> direction -> orientation == DIRECTION_ORIENTATION_NONE) {
 			break;
 		}
 		/*
-		 *if (directionValidate(snake -> body -> head -> data, &direction) == -1) {
+		 *if (directionValidate(snake -> body -> head -> data, &orientation) == -1) {
 		 *    break;
 		 *}
 		 */
 
-		if (direction.x) {
-			position -> x += direction.x;
-		} else if (direction.y) {
-			position -> y += direction.y;
+		switch (orientation) {
+			case DIRECTION_ORIENTATION_DOWN:
+			case DIRECTION_ORIENTATION_UP:
+				position -> y += max(min(MOVE_UNIT, orientation), -MOVE_UNIT);
+				break;
+
+			case DIRECTION_ORIENTATION_RIGHT:
+			case DIRECTION_ORIENTATION_LEFT:
+				position -> x += max(min(MOVE_UNIT, orientation), -MOVE_UNIT);
+				break;
+
+			default:
+				// there was an error let's get out
+				boundaryOkay = false;
 		}
 
 		refresh();

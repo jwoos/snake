@@ -26,8 +26,7 @@ typedef enum DirectionStatus {
 } DirectionStatus;
 
 typedef struct Direction {
-	DirectionOrientation x;
-	DirectionOrientation y;
+	DirectionOrientation orientation;
 	DirectionStatus status;
 } Direction;
 
@@ -35,9 +34,7 @@ Direction* directionConstruct(DirectionOrientation);
 
 void directionDeconstruct(Direction*);
 
-void directionSetX(Direction*, const int);
-
-void directionSetY(Direction*, const int);
+DirectionOrientation directionGet(Direction* const);
 
 void directionSet(Direction* const, const DirectionOrientation);
 

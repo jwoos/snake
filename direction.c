@@ -13,40 +13,13 @@ void directionDeconstruct(Direction* direction) {
 	free(direction);
 }
 
-void directionSetX(Direction* direction, const DirectionOrientation newX) {
-	direction -> y = DIRECTION_ORIENTATION_NONE;
-	direction -> x = newX;
-}
-
-void directionSetY(Direction* direction, const DirectionOrientation newY) {
-	direction -> x = DIRECTION_ORIENTATION_NONE;
-	direction -> y = newY;
-}
-
 void directionSet(Direction* const direction, const DirectionOrientation dir) {
-	switch (dir) {
-		case DIRECTION_ORIENTATION_LEFT:
-			directionSetX(direction, -1);
-			break;
-
-		case DIRECTION_ORIENTATION_RIGHT:
-			directionSetX(direction, 1);
-			break;
-
-		case DIRECTION_ORIENTATION_UP:
-			directionSetY(direction, -1);
-			break;
-
-		case DIRECTION_ORIENTATION_DOWN:
-			directionSetY(direction, 1);
-			break;
-
-		case DIRECTION_ORIENTATION_NONE:
-		default:
-			break;
-	}
-
+	direction -> orientation = dir;
 	direction -> status = DIRECTION_STATUS_OKAY;
+}
+
+DirectionOrientation directionGet(Direction* const dir) {
+	return dir -> orientation;
 }
 
 int directionValidate(const Direction* const Direction) {

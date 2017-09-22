@@ -82,7 +82,7 @@ DirectionOrientation parseInput(int ch) {
 			break;
 
 		default:
-			/*direction = Config.snake -> direction*/
+			direction = directionGet(Config.snake -> direction);
 			break;
 	}
 
@@ -90,13 +90,13 @@ DirectionOrientation parseInput(int ch) {
 }
 
 int validateMove(const Position* const position, const Direction* const direction) {
-	if (!direction -> x && !direction -> y) {
+	if (direction -> orientation == DIRECTION_ORIENTATION_NONE) {
 		return -1;
 	}
 
-	if ((position -> y == 1 && direction -> y == -1) || (position -> y == Config.maxY - 1 && direction -> y == 1)) {
+	if ((position -> y == 1 && direction -> orientation == DIRECTION_ORIENTATION_UP) || (position -> y == Config.maxY - 1 && direction -> orientation == DIRECTION_ORIENTATION_DOWN)) {
 		return 0;
-	} else if ((position -> x == 1 && direction -> x == -1) || (position -> x == Config.maxX - 1 && direction -> x == 1)) {
+	} else if ((position -> x == 1 && direction -> orientation == DIRECTION_ORIENTATION_LEFT) || (position -> x == Config.maxX - 1 && direction -> orientation == DIRECTION_ORIENTATION_RIGHT)) {
 		return 0;
 	}
 

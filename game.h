@@ -12,6 +12,7 @@
 #include "menu.h"
 #include "snake.h"
 #include "position.h"
+#include "utils.h"
 
 
 void ncursesSetup();
