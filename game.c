@@ -40,9 +40,8 @@ void gameSetup() {
 	Config.minY = 0;
 	getmaxyx(stdscr, Config.maxY, Config.maxX);
 
-	// quarter of a second
-	Config.timespec.tv_sec = 0;
-	Config.timespec.tv_nsec = 250000000;
+	Config.timespec.tv_sec = TIMESPEC_SEC;
+	Config.timespec.tv_nsec = TIMESPEC_NANOSEC;
 
 	box(stdscr, 0, 0);
 	Config.snake = snakeConstruct();
@@ -52,63 +51,51 @@ void gameTeardown() {
 
 }
 
-Direction parseInput(int ch) {
-	Direction direction;
+DirectionOrientation parseInput(int ch) {
+	DirectionOrientation direction;
 
 	switch (ch) {
 		case 'w':
-		case KEY_UP: {
-			direction.x = 0;
-			direction.y = -1;
+		case KEY_UP:
+			direction = DIRECTION_ORIENTATION_UP;
 			break;
-		}
 
 		case 's':
-		case KEY_DOWN: {
-			direction.x = 0;
-			direction.y = 1;
+		case KEY_DOWN:
+			direction = DIRECTION_ORIENTATION_DOWN;
 			break;
-		}
 
 		case 'd':
-		case KEY_RIGHT: {
-			direction.x = 1;
-			direction.y = 0;
+		case KEY_RIGHT:
+			direction = DIRECTION_ORIENTATION_RIGHT;
 			break;
-		}
 
 		case 'a':
-		case KEY_LEFT: {
-			direction.x = -1;
-			direction.y = 0;
+		case KEY_LEFT:
+			direction = DIRECTION_ORIENTATION_LEFT;
 			break;
-		}
 
 		// quit
-		case 'q': {
-			direction.x = 0;
-			direction.y = 0;
+		case 'q':
+			direction = DIRECTION_ORIENTATION_NONE;
 			break;
-		}
 
-		default: {
-			direction.x = 0;
-			direction.y = 0;
+		default:
+			direction = directionGet(Config.snake -> direction);
 			break;
-		}
 	}
 
 	return direction;
 }
 
 int validateMove(const Position* const position, const Direction* const direction) {
-	if (!direction -> x && !direction -> y) {
+	if (direction -> orientation == DIRECTION_ORIENTATION_NONE) {
 		return -1;
 	}
 
-	if ((position -> y == 1 && direction -> y == -1) || (position -> y == Config.maxY - 1 && direction -> y == 1)) {
+	if ((position -> y == 1 && direction -> orientation == DIRECTION_ORIENTATION_UP) || (position -> y == Config.maxY - 1 && direction -> orientation == DIRECTION_ORIENTATION_DOWN)) {
 		return 0;
-	} else if ((position -> x == 1 && direction -> x == -1) || (position -> x == Config.maxX - 1 && direction -> x == 1)) {
+	} else if ((position -> x == 1 && direction -> orientation == DIRECTION_ORIENTATION_LEFT) || (position -> x == Config.maxX - 1 && direction -> orientation == DIRECTION_ORIENTATION_RIGHT)) {
 		return 0;
 	}
 
