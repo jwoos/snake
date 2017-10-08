@@ -10,11 +10,19 @@ EXECUTABLES = snake tester
 
 default: clean snake
 
-debug: default
+debug-memory: default
 	valgrind --leak-check=full -v ./snake
 
-# shell main
-snake: main.c ${OBJECTS}
+debug-gdb: default
+	gdb snake
+
+# implicit rule for %.o
+# $(CC) $(CPPFLAGS) $(CFLAGS) -c $@
+
+# snake main
+# has nothing to do with snake.o !!
+snake: ${OBJECTS}
+	$(CC) main.c $^ $(LDFLAGS) $(LDLIBS) -o $@
 
 tester: tester.c ${OBJECTS}
 
