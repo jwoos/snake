@@ -10,6 +10,7 @@ typedef struct Position {
 	int y;
 } Position;
 
+
 Position* positionConstruct(int, int);
 
 void positionDeconstruct(Position*);

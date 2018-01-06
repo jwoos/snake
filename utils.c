@@ -13,3 +13,8 @@ int min(int a, int b) {
 int max(int a, int b) {
 	return a > b ? a : b;
 }
+
+void errorExit(char* msg) {
+	perror(msg);
+	exit(EXIT_FAILURE);
+}
