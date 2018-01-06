@@ -14,19 +14,21 @@ typedef struct List {
 	uint32_t size;
 } List;
 
+
 typedef struct ListNode {
 	struct ListNode* next;
 	struct ListNode* previous;
 	void* data;
 } ListNode;
 
+
 List* listConstruct(ListNode*);
 
-void listDeconstruct(List*);
+void listDeconstruct(List*, void (*fn)(ListNode*));
 
 ListNode* listNodeConstruct(void*, ListNode*, ListNode*);
 
-void listNodeDeconstruct(ListNode*);
+void listNodeDeconstruct(ListNode*, void (*fn)(ListNode*));
 
 void listPush(List*, void*);
 

@@ -21,6 +21,10 @@ struct Config {
 
 	struct Snake* snake;
 	struct timespec timespec;
+
+	struct List* items;
+
+	void** board;
 } Config;
 
 

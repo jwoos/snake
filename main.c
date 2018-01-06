@@ -17,6 +17,7 @@ int main(int argc, char* argv[]) {
 	bool boundaryOkay = true;
 	DirectionOrientation orientation;
 
+	/*timer_t itemTimer = timerRegister(&timerSignal, )*/
 	while (boundaryOkay) {
 		clear();
 		ch = getch();

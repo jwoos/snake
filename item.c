@@ -13,3 +13,8 @@ void itemDeconstruct(Item* item) {
 	positionDeconstruct(item -> position);
 	free(item);
 }
+
+// add stuff for item timer handler
+void itemTimerHandler(int sig, siginfo_t* si, void* userContext) {
+	signal(sig, SIG_IGN);
+}

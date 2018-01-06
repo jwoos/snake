@@ -17,7 +17,20 @@ List* listConstruct(ListNode* node) {
 	return list;
 }
 
-void listDeconstruct(List* list) {
+void listDeconstruct(List* list, void (*fn)(ListNode*)) {
+	if (fn == NULL) {
+		fn = &free;
+	}
+
+	ListNode* current = list -> head;
+	while (current != NULL) {
+		ListNode* next = current -> next;
+
+		listNodeDeconstruct(current, fn);
+
+		current = next;
+	}
+
 	free(list);
 }
 
@@ -39,8 +52,12 @@ ListNode* listNodeConstruct(void* data, ListNode* previous, ListNode* next) {
 	return node;
 }
 
-void listNodeDeconstruct(ListNode* node) {
-	free(node -> data);
+void listNodeDeconstruct(ListNode* node, void (*fn)(ListNode*)) {
+	if (fn == NULL) {
+		fn = &free;
+	}
+
+	fn(node -> data);
 	free(node);
 }
 
@@ -132,7 +149,7 @@ void listDelete(List* list, int index) {
 	previous -> next = next;
 	next -> previous = previous;
 
-	listNodeDeconstruct(temp);
+	listNodeDeconstruct(temp, NULL);
 	list -> size--;
 }
 
@@ -141,7 +158,7 @@ void listClear(List* list) {
 
 	while (current != NULL) {
 		ListNode* next = current -> next;
-		listNodeDeconstruct(current);
+		listNodeDeconstruct(current, NULL);
 
 		current = next;
 	}

@@ -40,6 +40,8 @@ void gameSetup() {
 	Config.minY = 0;
 	getmaxyx(stdscr, Config.maxY, Config.maxX);
 
+	Config.board = malloc(sizeof(void*) * (Config.maxY - 2) * (Config.maxX - 2));
+
 	Config.timespec.tv_sec = TIMESPEC_SEC;
 	Config.timespec.tv_nsec = TIMESPEC_NANOSEC;
 
@@ -48,7 +50,8 @@ void gameSetup() {
 }
 
 void gameTeardown() {
-
+	free(Config.board);
+	snakeDeconstruct(Config.snake);
 }
 
 DirectionOrientation parseInput(int ch) {

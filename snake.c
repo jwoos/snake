@@ -17,8 +17,7 @@ Snake* snakeConstruct() {
 
 void snakeDeconstruct(Snake* snake) {
 	directionDeconstruct(snake -> direction);
-	listClear(snake -> body);
-	listDeconstruct(snake -> body);
+	listDeconstruct(snake -> body, positionDeconstruct);
 	free(snake);
 }
 
