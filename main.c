@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <signal.h>
 
 #include "game.h"
 
@@ -6,6 +7,8 @@
 int main(int argc, char* argv[]) {
 	ncursesSetup();
 	gameSetup();
+
+	int timerSignal = SIGRTMIN;
 
 	Snake* snake = Config.snake;
 	Position* position = snake -> body -> head -> data;

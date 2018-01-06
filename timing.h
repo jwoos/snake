@@ -3,12 +3,15 @@
 
 
 #include <signal.h>
+#include <stdint.h>
+#include <time.h>
 #include <unistd.h>
 
+#include "global.h"
 #include "utils.h"
 
 
-timer_t timerRegister(uint64_t, void (*handler)(int, siginfo_t*, void*));
+timer_t timerRegister(int*, uint64_t, void (*handler)(int, siginfo_t*, void*));
 
 void timerDeregister(timer_t);
 

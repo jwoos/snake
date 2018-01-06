@@ -8,8 +8,10 @@
 
 
 #define MOVE_UNIT 1
+
 #define TIMESPEC_SEC 0
 #define TIMESPEC_NANOSEC 100000000 // 0.1 second
+
 
 struct Config {
 	uint32_t minX;

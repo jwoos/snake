@@ -1,11 +1,11 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -std=gnu11 -ggdb -O0
-LDLIBS = -lncursesw
+LDLIBS = -lncursesw -lrt
 ifeq ($(shell uname -s), Darwin)
 	LDFLAGS = -L/usr/local/opt/ncurses/lib
 endif
 
-OBJECTS = utils.o snake.o responsive.o linked-list.o position.o direction.o game.o item.o
+OBJECTS = utils.o snake.o responsive.o linked-list.o position.o direction.o game.o item.o timing.o
 EXECUTABLES = snake tester
 
 default: clean snake

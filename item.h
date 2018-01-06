@@ -10,5 +10,10 @@ typedef struct Item {
 } Item;
 
 
+Item* itemConstruct(Position*);
+
+void itemDeconstruct(Item*);
+
+
 #endif
 
