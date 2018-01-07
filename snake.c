@@ -51,3 +51,53 @@ void snakeRender(Snake* snake) {
 		current = current -> next;
 	}
 }
+
+// FIXME it should set backwards so as not to propagate one value
+bool snakeAdvance(Snake* snake) {
+	bool boundaryOkay = true;
+
+	List* body = snake -> body;
+
+	ListNode* current = body -> head -> next;
+	ListNode* previous = body -> head;
+
+	Position* currentPosition = current -> data;
+	Position* previousPosition = previous -> data;
+
+	while (current != NULL) {
+		if (snake -> modified && current == snake -> body -> tail) {
+			snake -> modified = false;
+			break;
+		}
+
+		if (current == snake -> body -> tail) {
+			positionDeconstruct(currentPosition);
+		}
+
+		currentPosition = previousPosition;
+
+		previous = current;
+		current = current -> next;
+		currentPosition = current -> data;
+		previousPosition = previous -> data;
+	}
+
+	DirectionOrientation orientation = snake -> direction -> orientation;
+	Position* headPosition = body -> head -> data;
+	switch (orientation) {
+		case DIRECTION_ORIENTATION_DOWN:
+		case DIRECTION_ORIENTATION_UP:
+			headPosition -> y += max(min(MOVE_UNIT, orientation), -MOVE_UNIT);
+			break;
+
+		case DIRECTION_ORIENTATION_RIGHT:
+		case DIRECTION_ORIENTATION_LEFT:
+			headPosition -> x += max(min(MOVE_UNIT, orientation), -MOVE_UNIT);
+			break;
+
+		default:
+			boundaryOkay = false;
+	}
+
+	return boundaryOkay;
+}

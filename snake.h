@@ -28,5 +28,7 @@ bool snakeCheckBoundary(Snake*);
 
 void snakeRender(Snake*);
 
+bool snakeAdvance(Snake*);
+
 
 #endif
