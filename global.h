@@ -12,6 +12,9 @@
 #define TIMESPEC_SEC 0
 #define TIMESPEC_NANOSEC 100000000 // 0.1 second
 
+#define SNAKE_BODY "■"
+#define ITEM_BODY "·"
+
 
 struct Config {
 	uint32_t minX;

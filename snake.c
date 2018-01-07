@@ -11,6 +11,7 @@ Snake* snakeConstruct() {
 
 	snake -> body = positions;
 	snake -> direction = direction;
+	snake -> modified = false;
 
 	return snake;
 }
@@ -35,7 +36,18 @@ bool snakeCheckBoundary(Snake* snake) {
 	return okay;
 }
 
+void snakeAdd(Snake* snake) {
+	List* body = snake -> body;
+	Position* tail = body -> tail -> data;
+	listPush(body, positionConstruct(tail -> x, tail -> y));
+	snake -> modified = true;
+}
+
 void snakeRender(Snake* snake) {
-	Position* position = snake -> body -> head -> data;
-	mvprintw(position -> y, position -> x, "■");
+	ListNode* current = snake -> body -> head;
+	while (current != NULL) {
+		Position* position = current -> data;
+		mvprintw(position -> y, position -> x, SNAKE_BODY);
+		current = current -> next;
+	}
 }

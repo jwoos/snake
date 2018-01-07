@@ -58,24 +58,25 @@ DirectionOrientation parseInput(int ch) {
 	DirectionOrientation direction;
 
 	switch (ch) {
-		case 'w':
 		case KEY_UP:
 			direction = DIRECTION_ORIENTATION_UP;
 			break;
 
-		case 's':
 		case KEY_DOWN:
 			direction = DIRECTION_ORIENTATION_DOWN;
 			break;
 
-		case 'd':
 		case KEY_RIGHT:
 			direction = DIRECTION_ORIENTATION_RIGHT;
 			break;
 
-		case 'a':
 		case KEY_LEFT:
 			direction = DIRECTION_ORIENTATION_LEFT;
+			break;
+
+		case 'a':
+			snakeAdd(Config.snake);
+			direction = directionGet(Config.snake -> direction);
 			break;
 
 		// quit
@@ -111,6 +112,15 @@ void gameEndScreen() {
 	refresh();
 	mvprintw(1, 1, "x: %d y: %d", position -> x, position -> y);
 	mvprintw(2, 1, "max x: %d max y: %d", Config.maxX, Config.maxY);
-	mvprintw(3, 1, "Press any key to quit");
+	mvprintw(3, 1, "snake length: %d", Config.snake -> body -> size);
+
+	ListNode* current = Config.snake -> body -> head;
+	int i;
+	for (i = 0; i < Config.snake -> body -> size; i++) {
+		Position* position = current -> data;
+		mvprintw(4 + i, 1, "snake position %d: %d %d", i, position -> x, position -> y);
+		current = current -> next;
+	}
+	mvprintw(i + 5, 1, "Press any key to quit");
 	getch();
 }

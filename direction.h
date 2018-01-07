@@ -38,7 +38,5 @@ DirectionOrientation directionGet(Direction* const);
 
 void directionSet(Direction* const, const DirectionOrientation);
 
-int directionValidate(const Direction* const);
-
 
 #endif

@@ -4,6 +4,7 @@
 
 #include <locale.h>
 #include <ncurses.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <stdint.h>
 
@@ -16,6 +17,7 @@
 typedef struct Snake {
 	struct List* body;
 	struct Direction* direction;
+	bool modified;
 } Snake;
 
 Snake* snakeConstruct();
