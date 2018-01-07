@@ -22,14 +22,24 @@ void snakeDeconstruct(Snake* snake) {
 }
 
 bool snakeCheckBoundary(Snake* snake) {
-	Position* p = vectorGet(snake -> body, 0);
+	Position* head = vectorGet(snake -> body, 0);
 	bool okay = true;
 
 	// it hit top or left
-	if (p -> y <= Config.minY || p -> y >= Config.maxY) {
+	if (head -> y <= Config.minY || head -> y >= Config.maxY) {
 		okay = false;
-	} else if (p -> x <= Config.minX || p -> x >= Config.maxX) {
+	} else if (head -> x <= Config.minX || head -> x >= Config.maxX) {
 		okay = false;
+	}
+
+	// it hit itself
+	Position* current;
+	for (uint64_t i = 1; i < snake -> body -> size; i++) {
+		current = vectorGet(snake -> body, i);
+
+		if (current -> x == head -> x && current -> y == head -> y) {
+			okay = false;
+		}
 	}
 
 	return okay;
