@@ -25,8 +25,6 @@ void gameTeardown();
 
 DirectionOrientation parseInput(DirectionOrientation);
 
-int validateMove(const Position* const position, const Direction* const direction);
-
 void gameEndScreen();
 
 

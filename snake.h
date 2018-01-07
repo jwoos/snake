@@ -12,19 +12,22 @@
 #include "linked-list.h"
 #include "position.h"
 #include "global.h"
+#include "vector.h"
 
 
 typedef struct Snake {
-	struct List* body;
-	struct Direction* direction;
-	bool modified;
+	Vector* body;
+	Direction* direction;
 } Snake;
+
 
 Snake* snakeConstruct();
 
 void snakeDeconstruct(Snake*);
 
 bool snakeCheckBoundary(Snake*);
+
+void snakeAdd(Snake*);
 
 void snakeRender(Snake*);
 

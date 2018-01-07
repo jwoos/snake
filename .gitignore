@@ -3,3 +3,4 @@
 tester
 snake
 *.o
+.gdb_history

@@ -5,7 +5,7 @@ ifeq ($(shell uname -s), Darwin)
 	LDFLAGS = -L/usr/local/opt/ncurses/lib
 endif
 
-OBJECTS = utils.o snake.o responsive.o linked-list.o position.o direction.o game.o item.o timing.o
+OBJECTS = utils.o snake.o responsive.o linked-list.o position.o direction.o game.o item.o timing.o vector.o
 EXECUTABLES = snake tester
 
 default: clean snake

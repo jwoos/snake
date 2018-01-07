@@ -92,34 +92,18 @@ DirectionOrientation parseInput(int ch) {
 	return direction;
 }
 
-int validateMove(const Position* const position, const Direction* const direction) {
-	if (direction -> orientation == DIRECTION_ORIENTATION_NONE) {
-		return -1;
-	}
-
-	if ((position -> y == 1 && direction -> orientation == DIRECTION_ORIENTATION_UP) || (position -> y == Config.maxY - 1 && direction -> orientation == DIRECTION_ORIENTATION_DOWN)) {
-		return 0;
-	} else if ((position -> x == 1 && direction -> orientation == DIRECTION_ORIENTATION_LEFT) || (position -> x == Config.maxX - 1 && direction -> orientation == DIRECTION_ORIENTATION_RIGHT)) {
-		return 0;
-	}
-
-	return 1;
-}
-
 void gameEndScreen() {
-	Position* position = Config.snake -> body -> head -> data;
+	Position* position = vectorGet(Config.snake -> body, 0);
 	nodelay(stdscr, FALSE);
 	refresh();
 	mvprintw(1, 1, "x: %d y: %d", position -> x, position -> y);
 	mvprintw(2, 1, "max x: %d max y: %d", Config.maxX, Config.maxY);
 	mvprintw(3, 1, "snake length: %d", Config.snake -> body -> size);
 
-	ListNode* current = Config.snake -> body -> head;
-	int i;
+	uint64_t i;
 	for (i = 0; i < Config.snake -> body -> size; i++) {
-		Position* position = current -> data;
+		Position* position = vectorGet(Config.snake -> body, i);
 		mvprintw(4 + i, 1, "snake position %d: %d %d", i, position -> x, position -> y);
-		current = current -> next;
 	}
 	mvprintw(i + 5, 1, "Press any key to quit");
 	getch();

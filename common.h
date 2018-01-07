@@ -2,6 +2,10 @@
 #define SNAKE_COMMON_H
 
 
+#define SNAKE_DATA_DEFAULT_SIZE 16
+#define SNAKE_DATA_INCREASE_FACTOR 2
+
+
 enum Resize {
 	ADD,
 	MULTIPLY,

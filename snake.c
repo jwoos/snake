@@ -6,24 +6,23 @@ Snake* snakeConstruct() {
 
 	Direction* direction = directionConstruct(DIRECTION_ORIENTATION_RIGHT);
 	Position* position = positionConstruct(1, 1);
-	ListNode* head = listNodeConstruct(position, NULL, NULL);
-	List* positions = listConstruct(head);
+	Vector* body = vectorConstruct(16);
+	vectorPush(body, position);
 
-	snake -> body = positions;
+	snake -> body = body;
 	snake -> direction = direction;
-	snake -> modified = false;
 
 	return snake;
 }
 
 void snakeDeconstruct(Snake* snake) {
 	directionDeconstruct(snake -> direction);
-	listDeconstruct(snake -> body, positionDeconstruct);
+	vectorDeconstruct(snake -> body, positionDeconstruct);
 	free(snake);
 }
 
 bool snakeCheckBoundary(Snake* snake) {
-	Position* p = snake -> body -> head -> data;
+	Position* p = vectorGet(snake -> body, 0);
 	bool okay = true;
 
 	// it hit top or left
@@ -37,53 +36,42 @@ bool snakeCheckBoundary(Snake* snake) {
 }
 
 void snakeAdd(Snake* snake) {
-	List* body = snake -> body;
-	Position* tail = body -> tail -> data;
-	listPush(body, positionConstruct(tail -> x, tail -> y));
-	snake -> modified = true;
+	Vector* body = snake -> body;
+	Position* tail = vectorGet(body, body -> size - 1);
+	vectorPush(body, positionConstruct(tail -> x, tail -> y));
 }
 
 void snakeRender(Snake* snake) {
-	ListNode* current = snake -> body -> head;
-	while (current != NULL) {
-		Position* position = current -> data;
-		mvprintw(position -> y, position -> x, SNAKE_BODY);
-		current = current -> next;
+	Position* current;
+
+	for (uint64_t i = 0 ; i < snake -> body -> size; i++) {
+		current = vectorGet(snake -> body, i);
+		mvprintw(current -> y, current -> x, SNAKE_BODY);
 	}
 }
 
 // FIXME it should set backwards so as not to propagate one value
 bool snakeAdvance(Snake* snake) {
-	bool boundaryOkay = true;
+	bool okay = true;
 
-	List* body = snake -> body;
+	Vector* body = snake -> body;
 
-	ListNode* current = body -> head -> next;
-	ListNode* previous = body -> head;
+	Position* current = NULL;
+	Position* previous = NULL;
 
-	Position* currentPosition = current -> data;
-	Position* previousPosition = previous -> data;
+	for (int i = body -> size - 1; i >= 0; i--) {
+		current = vectorGet(body, i);
 
-	while (current != NULL) {
-		if (snake -> modified && current == snake -> body -> tail) {
-			snake -> modified = false;
-			break;
+		if (previous != NULL) {
+			previous -> x = current -> x;
+			previous -> y = current -> y;
 		}
-
-		if (current == snake -> body -> tail) {
-			positionDeconstruct(currentPosition);
-		}
-
-		currentPosition = previousPosition;
 
 		previous = current;
-		current = current -> next;
-		currentPosition = current -> data;
-		previousPosition = previous -> data;
 	}
 
+	Position* headPosition = vectorGet(body, 0);
 	DirectionOrientation orientation = snake -> direction -> orientation;
-	Position* headPosition = body -> head -> data;
 	switch (orientation) {
 		case DIRECTION_ORIENTATION_DOWN:
 		case DIRECTION_ORIENTATION_UP:
@@ -96,8 +84,8 @@ bool snakeAdvance(Snake* snake) {
 			break;
 
 		default:
-			boundaryOkay = false;
+			okay = false;
 	}
 
-	return boundaryOkay;
+	return okay;
 }
