@@ -5,8 +5,13 @@
 
 
 int main(int argc, char* argv[]) {
-	ncursesSetup();
+	if (argc > 1) {
+		Config.debug = true;
+	} else {
+		Config.debug = false;
+	}
 
+	// ncurses gets set up
 	gamePreSetup();
 	gameSetup();
 	gamePostSetup();
@@ -14,40 +19,34 @@ int main(int argc, char* argv[]) {
 	Snake* snake = Config.snake;
 
 	int ch;
-	bool boundaryOkay = true;
-	bool statusOkay = true;
-	DirectionOrientation orientation;
+	bool okay = true;
 
-	while (boundaryOkay && statusOkay) {
+	while (okay) {
 		clear();
 		ch = getch();
 
 		box(stdscr, 0, 0);
 		snakeRender(snake);
 
-		orientation = parseInput(ch);
-		directionSet(snake -> direction, orientation);
+		directionSet(snake -> direction, parseInput(ch));
 
 		if (snake -> direction -> orientation == DIRECTION_ORIENTATION_NONE) {
 			break;
 		}
 
-		statusOkay = snakeAdvance(snake);
+		okay = snakeAdvance(snake);
 
 		refresh();
-		boundaryOkay = snakeCheckBoundary(snake);
+		okay = snakeCheckBoundary(snake);
 
 		nanosleep(&Config.timespec, NULL);
 	}
 
-	gameEndScreen();
-
-	ncursesTeardown();
+	// show statistics before they're gone
 	gamePreTeardown();
 	gameTeardown();
+	// ncurses gets torn down
 	gamePostTeardown();
-
-	printf("test\n");
 
 	return 0;
 }

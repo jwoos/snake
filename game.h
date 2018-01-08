@@ -39,5 +39,7 @@ DirectionOrientation parseInput(DirectionOrientation);
 
 void gameEndScreen(void);
 
+void gameEndScreenDebug(void);
+
 
 #endif

@@ -1,7 +1,7 @@
 #include "timing.h"
 
 
-timer_t timerRegister(int* sig, uint64_t nanoseconds, void (*handler)(int, siginfo_t*, void*)) {
+timer_t timerRegister(int sig, uint64_t nanoseconds, void (*handler)(int, siginfo_t*, void*)) {
 	timer_t timerid;
 	struct sigevent sev;
 	struct itimerspec its;
@@ -11,12 +11,12 @@ timer_t timerRegister(int* sig, uint64_t nanoseconds, void (*handler)(int, sigin
 	sa.sa_sigaction = handler;
 	sigemptyset(&sa.sa_mask);
 
-	if (sigaction(*sig, &sa, NULL) < 0) {
+	if (sigaction(sig, &sa, NULL) < 0) {
 		errorExit("sigaction");
 	}
 
 	sev.sigev_notify = SIGEV_SIGNAL;
-	sev.sigev_signo = *sig;
+	sev.sigev_signo = sig;
 	sev.sigev_value.sival_ptr = &timerid;
 	if (timer_create(CLOCK_REALTIME, &sev, &timerid) < 0) {
 		errorExit("timer_create");
@@ -29,8 +29,6 @@ timer_t timerRegister(int* sig, uint64_t nanoseconds, void (*handler)(int, sigin
 	if (timer_settime(timerid, 0, &its, NULL) < 0) {
 		errorExit("timer_settime");
 	}
-
-	*sig += 1;
 
 	return timerid;
 }

@@ -2,6 +2,7 @@
 #define SNAKE_GLOBAL_H
 
 
+#include <stdbool.h>
 #include <time.h>
 
 #include "snake.h"
@@ -27,6 +28,8 @@ struct Config {
 	struct timespec timespec;
 
 	timer_t itemTimer;
+
+	bool debug;
 
 	uint8_t** board;
 } Config;

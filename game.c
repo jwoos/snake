@@ -36,7 +36,7 @@ void ncursesTeardown(void) {
 }
 
 void gamePreSetup(void) {
-
+	ncursesSetup();
 }
 
 void gameSetup(void) {
@@ -47,8 +47,7 @@ void gameSetup(void) {
 	Config.minY = 0;
 	getmaxyx(stdscr, Config.maxY, Config.maxX);
 
-	int timerSignal = SIGRTMIN;
-	/*Config.itemTimer = timerRegister(&timerSignal, 3e9, itemTimerHandler);*/
+	Config.itemTimer = timerRegister(SIGRTMIN, 3e9, itemTimerHandler);
 
 	// reference as [y][x]
 	Config.board = itemConstruct();
@@ -65,7 +64,12 @@ void gamePostSetup(void) {
 }
 
 void gamePreTeardown(void) {
-	/*timerDeregister(Config.itemTimer);*/
+	timerDeregister(Config.itemTimer);
+	if (Config.debug) {
+		gameEndScreenDebug();
+	} else {
+		gameEndScreen();
+	}
 }
 
 void gameTeardown(void) {
@@ -74,7 +78,7 @@ void gameTeardown(void) {
 }
 
 void gamePostTeardown(void) {
-
+	ncursesTeardown();
 }
 
 DirectionOrientation parseInput(int ch) {
@@ -121,6 +125,14 @@ DirectionOrientation parseInput(int ch) {
 }
 
 void gameEndScreen(void) {
+	nodelay(stdscr, FALSE);
+	refresh();
+	mvprintw(1, 1, "Game end statistics go here");
+	mvprintw(2, 1, "Press any key to quit");
+	getch();
+}
+
+void gameEndScreenDebug(void) {
 	Position* position = vectorGet(Config.snake -> body, 0);
 	nodelay(stdscr, FALSE);
 	refresh();
