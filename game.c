@@ -1,7 +1,7 @@
 #include "game.h"
 
 
-void ncursesSetup() {
+void ncursesSetup(void) {
 	// set locale to support wide character
 	setlocale(LC_CTYPE, "");
 
@@ -27,7 +27,7 @@ void ncursesSetup() {
 	curs_set(FALSE);
 }
 
-void ncursesTeardown() {
+void ncursesTeardown(void) {
 	// clear to end of line
 	clrtoeol();
 
@@ -35,12 +35,23 @@ void ncursesTeardown() {
 	endwin();
 }
 
-void gameSetup() {
+void gamePreSetup(void) {
+
+}
+
+void gameSetup(void) {
+	// seed rng
+	srand(time(NULL));
+
 	Config.minX = 0;
 	Config.minY = 0;
 	getmaxyx(stdscr, Config.maxY, Config.maxX);
 
-	Config.board = malloc(sizeof(void*) * (Config.maxY - 2) * (Config.maxX - 2));
+	int timerSignal = SIGRTMIN;
+	/*Config.itemTimer = timerRegister(&timerSignal, 3e9, itemTimerHandler);*/
+
+	// reference as [y][x]
+	Config.board = itemConstruct();
 
 	Config.timespec.tv_sec = TIMESPEC_SEC;
 	Config.timespec.tv_nsec = TIMESPEC_NANOSEC;
@@ -49,9 +60,21 @@ void gameSetup() {
 	Config.snake = snakeConstruct();
 }
 
-void gameTeardown() {
-	free(Config.board);
+void gamePostSetup(void) {
+
+}
+
+void gamePreTeardown(void) {
+	/*timerDeregister(Config.itemTimer);*/
+}
+
+void gameTeardown(void) {
+	itemDeconstruct(Config.board);
 	snakeDeconstruct(Config.snake);
+}
+
+void gamePostTeardown(void) {
+
 }
 
 DirectionOrientation parseInput(int ch) {
@@ -79,6 +102,11 @@ DirectionOrientation parseInput(int ch) {
 			direction = directionGet(Config.snake -> direction);
 			break;
 
+		case 's':
+			itemAdd(Config.board);
+			direction = directionGet(Config.snake -> direction);
+			break;
+
 		// quit
 		case 'q':
 			direction = DIRECTION_ORIENTATION_NONE;
@@ -92,7 +120,7 @@ DirectionOrientation parseInput(int ch) {
 	return direction;
 }
 
-void gameEndScreen() {
+void gameEndScreen(void) {
 	Position* position = vectorGet(Config.snake -> body, 0);
 	nodelay(stdscr, FALSE);
 	refresh();

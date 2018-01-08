@@ -3,22 +3,18 @@
 
 
 #include <signal.h>
+#include <stdio.h>
 
 #include "global.h"
 #include "position.h"
+#include "utils.h"
 
 
-extern List* items;
+uint8_t** itemConstruct(void);
 
+void itemDeconstruct(uint8_t**);
 
-typedef struct Item {
-	Position* position;
-} Item;
-
-
-Item* itemConstruct(Position*);
-
-void itemDeconstruct(Item*);
+void itemAdd(uint8_t**);
 
 void itemTimerHandler(int, siginfo_t*, void*);
 

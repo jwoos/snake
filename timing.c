@@ -31,10 +31,15 @@ timer_t timerRegister(int* sig, uint64_t nanoseconds, void (*handler)(int, sigin
 	}
 
 	*sig += 1;
+
 	return timerid;
 }
 
 void timerDeregister(timer_t timerid) {
+	if (timerid == NULL) {
+		printf("what\n");
+		exit(0);
+	}
 	if (timer_delete(timerid) < 0) {
 		errorExit("timer_delete");
 	}

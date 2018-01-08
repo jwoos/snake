@@ -6,9 +6,10 @@
 
 int main(int argc, char* argv[]) {
 	ncursesSetup();
-	gameSetup();
 
-	int timerSignal = SIGRTMIN;
+	gamePreSetup();
+	gameSetup();
+	gamePostSetup();
 
 	Snake* snake = Config.snake;
 
@@ -17,7 +18,6 @@ int main(int argc, char* argv[]) {
 	bool statusOkay = true;
 	DirectionOrientation orientation;
 
-	/*timer_t itemTimer = timerRegister(&timerSignal, )*/
 	while (boundaryOkay && statusOkay) {
 		clear();
 		ch = getch();
@@ -25,7 +25,6 @@ int main(int argc, char* argv[]) {
 		box(stdscr, 0, 0);
 		snakeRender(snake);
 
-		int originalOrientation = snake -> direction -> orientation;
 		orientation = parseInput(ch);
 		directionSet(snake -> direction, orientation);
 
@@ -44,7 +43,11 @@ int main(int argc, char* argv[]) {
 	gameEndScreen();
 
 	ncursesTeardown();
+	gamePreTeardown();
 	gameTeardown();
+	gamePostTeardown();
+
+	printf("test\n");
 
 	return 0;
 }

@@ -2,7 +2,7 @@
 
 
 Vector* vectorConstruct(uint64_t cap) {
-	Vector* vector = malloc(sizeof (Vector));
+	Vector* vector = malloc(sizeof(Vector));
 
 	if (!cap) {
 		cap = SNAKE_DATA_DEFAULT_SIZE;
@@ -10,7 +10,7 @@ Vector* vectorConstruct(uint64_t cap) {
 
 	vector -> size = 0;
 	vector -> capacity = cap;
-	vector -> array = malloc(sizeof (void*) * cap);
+	vector -> array = calloc(cap, sizeof(void*));
 
 	return vector;
 }
@@ -20,9 +20,11 @@ void vectorDeconstruct(Vector* vector, void (*fn)(void*)) {
 		fn = &free;
 	}
 
-	for (uint64_t i = 0; i < vector -> size; i++) {
-		(*fn)(vector -> array[i]);
-		vector -> array[i] = NULL;
+	for (uint64_t i = 0; i < vector -> capacity; i++) {
+		if (vector -> array[i] != NULL) {
+			(*fn)(vector -> array[i]);
+			vector -> array[i] = NULL;
+		}
 	}
 
 	free(vector -> array);

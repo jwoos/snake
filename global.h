@@ -5,6 +5,7 @@
 #include <time.h>
 
 #include "snake.h"
+#include "vector.h"
 
 
 #define MOVE_UNIT 1
@@ -25,9 +26,9 @@ struct Config {
 	struct Snake* snake;
 	struct timespec timespec;
 
-	struct List* items;
+	timer_t itemTimer;
 
-	void** board;
+	uint8_t** board;
 } Config;
 
 

@@ -2,6 +2,7 @@
 #define SNAKE_UTIL_H
 
 
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 

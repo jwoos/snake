@@ -5,27 +5,39 @@
 #include <unistd.h>
 #include <time.h>
 #include <ncurses.h>
+#include <signal.h>
+#include <stdlib.h>
 
 #include "direction.h"
 #include "global.h"
+#include "item.h"
 #include "linked-list.h"
 #include "menu.h"
 #include "snake.h"
 #include "position.h"
+#include "timing.h"
 #include "utils.h"
 
 
-void ncursesSetup();
+void ncursesSetup(void);
 
-void ncursesTeardown();
+void ncursesTeardown(void);
 
-void gameSetup();
+void gamePreSetup(void);
 
-void gameTeardown();
+void gameSetup(void);
+
+void gamePostSetup(void);
+
+void gamePreTeardown(void);
+
+void gameTeardown(void);
+
+void gamePostTeardown(void);
 
 DirectionOrientation parseInput(DirectionOrientation);
 
-void gameEndScreen();
+void gameEndScreen(void);
 
 
 #endif
