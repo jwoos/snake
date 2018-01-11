@@ -32,6 +32,9 @@ struct Config {
 	bool debug;
 
 	uint8_t** board;
+	Vector* items;
+
+	uint8_t sigCount;
 } Config;
 
 

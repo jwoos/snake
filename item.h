@@ -14,7 +14,9 @@ uint8_t** itemConstruct(void);
 
 void itemDeconstruct(uint8_t**);
 
-void itemAdd(uint8_t**);
+void itemAdd(uint8_t**, Vector*);
+
+void itemRender(Vector*);
 
 void itemTimerHandler(int, siginfo_t*, void*);
 

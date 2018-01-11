@@ -56,7 +56,10 @@ void gameSetup(void) {
 	Config.timespec.tv_nsec = TIMESPEC_NANOSEC;
 
 	box(stdscr, 0, 0);
+	Config.items = vectorConstruct(16);
 	Config.snake = snakeConstruct();
+
+	Config.sigCount = 0;
 }
 
 void gamePostSetup(void) {
@@ -74,6 +77,7 @@ void gamePreTeardown(void) {
 
 void gameTeardown(void) {
 	itemDeconstruct(Config.board);
+	vectorDeconstruct(Config.items, positionDeconstruct);
 	snakeDeconstruct(Config.snake);
 }
 
@@ -107,7 +111,7 @@ DirectionOrientation parseInput(int ch) {
 			break;
 
 		case 's':
-			itemAdd(Config.board);
+			itemAdd(Config.board, Config.items);
 			direction = directionGet(Config.snake -> direction);
 			break;
 
@@ -142,9 +146,19 @@ void gameEndScreenDebug(void) {
 
 	uint64_t i;
 	for (i = 0; i < Config.snake -> body -> size; i++) {
-		Position* position = vectorGet(Config.snake -> body, i);
+		position = vectorGet(Config.snake -> body, i);
 		mvprintw(4 + i, 1, "snake position %d: %d %d", i, position -> x, position -> y);
 	}
-	mvprintw(i + 5, 1, "Press any key to quit");
+
+	mvprintw(4 + i, 1, "items count: %d", Config.items -> size);
+
+	uint64_t j;
+	// segfaulting
+	for (j = 0; j < Config.items -> size; j++) {
+		position = vectorGet(Config.items, j);
+		mvprintw(5 + j, 1, "item position %d: %d %d", j, position -> x, position -> y);
+	}
+	mvprintw(i + j + 5, 1, "RT Signals handled: %d", Config.sigCount);
+	mvprintw(i + j + 6, 1, "Press any key to quit");
 	getch();
 }

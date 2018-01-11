@@ -27,6 +27,7 @@ int main(int argc, char* argv[]) {
 
 		box(stdscr, 0, 0);
 		snakeRender(snake);
+		itemRender(Config.items);
 
 		directionSet(snake -> direction, parseInput(ch));
 

@@ -17,19 +17,29 @@ void itemDeconstruct(uint8_t** itemBoard) {
 	free(itemBoard);
 }
 
-void itemAdd(uint8_t** itemBoard) {
+void itemAdd(uint8_t** itemBoard, Vector* items) {
 	uint64_t x = randomNumber(1, Config.maxX - 1);
 	uint64_t y = randomNumber(1, Config.maxY - 1);
 
 	// TODO handle collision with snake
 	if (itemBoard[y][x] == 0) {
-		Config.board[y][x] = 1;
+		Position* item = positionConstruct(x, y);
+		vectorPush(items, item);
+		itemBoard[y][x] = 1;
 	} else {
-		itemAdd(itemBoard);
+		itemAdd(itemBoard, items);
 	}
 }
 
-// add stuff for item timer handler
+void itemRender(Vector* items) {
+	Position* position;
+	for (uint64_t i = 0; i < items -> size; i++) {
+		position = vectorGet(items, i);
+		mvprintw(position -> y, position -> x, ITEM_BODY);
+	}
+}
+
 void itemTimerHandler(int sig, siginfo_t* si, void* userContext) {
-	itemAdd(Config.board);
+	Config.sigCount++;
+	itemAdd(Config.board, Config.items);
 }
