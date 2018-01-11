@@ -111,7 +111,7 @@ DirectionOrientation parseInput(int ch) {
 			break;
 
 		case 's':
-			itemAdd(Config.board, Config.items);
+			itemAdd(Config.board, Config.items, Config.snake);
 			direction = directionGet(Config.snake -> direction);
 			break;
 

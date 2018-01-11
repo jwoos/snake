@@ -14,7 +14,7 @@ uint8_t** itemConstruct(void);
 
 void itemDeconstruct(uint8_t**);
 
-void itemAdd(uint8_t**, Vector*);
+void itemAdd(uint8_t**, Vector*, Snake*);
 
 void itemRender(Vector*);
 

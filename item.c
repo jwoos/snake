@@ -17,17 +17,25 @@ void itemDeconstruct(uint8_t** itemBoard) {
 	free(itemBoard);
 }
 
-void itemAdd(uint8_t** itemBoard, Vector* items) {
+void itemAdd(uint8_t** itemBoard, Vector* items, Snake* snake) {
 	uint64_t x = randomNumber(1, Config.maxX - 1);
 	uint64_t y = randomNumber(1, Config.maxY - 1);
 
-	// TODO handle collision with snake
 	if (itemBoard[y][x] == 0) {
+		Vector* body = snake -> body;
+
+		for (uint32_t i = 0; i < body -> size; i++) {
+			Position* pos = vectorGet(body, i);
+			if (pos -> x == x && pos -> y == y) {
+				itemAdd(itemBoard, items, snake);
+			}
+		}
+
 		Position* item = positionConstruct(x, y);
 		vectorPush(items, item);
 		itemBoard[y][x] = 1;
 	} else {
-		itemAdd(itemBoard, items);
+		itemAdd(itemBoard, items, snake);
 	}
 }
 
@@ -41,5 +49,5 @@ void itemRender(Vector* items) {
 
 void itemTimerHandler(int sig, siginfo_t* si, void* userContext) {
 	Config.sigCount++;
-	itemAdd(Config.board, Config.items);
+	itemAdd(Config.board, Config.items, Config.snake);
 }
