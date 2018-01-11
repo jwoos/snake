@@ -35,10 +35,17 @@ int main(int argc, char* argv[]) {
 			break;
 		}
 
-		okay = snakeAdvance(snake, Config.items, Config.board);
+		okay = snakeAdvance(snake);
+
+		if (okay) {
+			okay = snakeCheckBoundary(snake);
+		}
+
+		if (okay) {
+			snakeConsume(snake, Config.items, Config.board);
+		}
 
 		refresh();
-		okay = snakeCheckBoundary(snake);
 
 		nanosleep(&Config.timespec, NULL);
 	}

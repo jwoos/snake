@@ -14,3 +14,6 @@ For example:
 # this will put it into debug mode
 ./snake 1
 ```
+
+## How to play
+Classic game of snake. Control with arrow keys and quit with `q` anytime. It's game over when you run into a wall or yourself!

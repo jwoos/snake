@@ -63,8 +63,7 @@ void snakeRender(Snake* snake) {
 	}
 }
 
-// FIXME it should set backwards so as not to propagate one value
-bool snakeAdvance(Snake* snake, Vector* items, uint8_t** board) {
+bool snakeAdvance(Snake* snake) {
 	bool okay = true;
 
 	Vector* body = snake -> body;
@@ -100,6 +99,12 @@ bool snakeAdvance(Snake* snake, Vector* items, uint8_t** board) {
 			okay = false;
 	}
 
+	return okay;
+}
+
+void snakeConsume(Snake* snake, Vector* items, uint8_t** board) {
+	Position* headPosition = vectorGet(snake -> body, 0);
+
 	// there's an item, grow
 	if (board[headPosition -> y][headPosition -> x] == 1) {
 		for (uint32_t i = 0; i < items -> size; i++) {
@@ -113,6 +118,4 @@ bool snakeAdvance(Snake* snake, Vector* items, uint8_t** board) {
 		board[headPosition -> y][headPosition -> x] = 0;
 		snakeAdd(snake);
 	}
-
-	return okay;
 }

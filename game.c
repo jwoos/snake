@@ -106,12 +106,16 @@ DirectionOrientation parseInput(int ch) {
 			break;
 
 		case 'a':
-			snakeAdd(Config.snake);
+			if (Config.debug) {
+				snakeAdd(Config.snake);
+			}
 			direction = directionGet(Config.snake -> direction);
 			break;
 
 		case 's':
-			itemAdd(Config.board, Config.items, Config.snake);
+			if (Config.debug) {
+				itemAdd(Config.board, Config.items, Config.snake);
+			}
 			direction = directionGet(Config.snake -> direction);
 			break;
 
@@ -131,7 +135,7 @@ DirectionOrientation parseInput(int ch) {
 void gameEndScreen(void) {
 	nodelay(stdscr, FALSE);
 	refresh();
-	mvprintw(1, 1, "Game end statistics go here");
+	mvprintw(1, 1, "Total items consumed: %d", Config.snake -> body -> size - 1);
 	mvprintw(2, 1, "Press any key to quit");
 	getch();
 }

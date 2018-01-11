@@ -32,7 +32,9 @@ void snakeAdd(Snake*);
 
 void snakeRender(Snake*);
 
-bool snakeAdvance(Snake*, Vector*, uint8_t**);
+bool snakeAdvance(Snake*);
+
+void snakeConsume(Snake*, Vector*, uint8_t**);
 
 
 #endif
