@@ -18,6 +18,7 @@
 typedef struct Snake {
 	Vector* body;
 	Direction* direction;
+	bool modified;
 } Snake;
 
 
@@ -31,7 +32,7 @@ void snakeAdd(Snake*);
 
 void snakeRender(Snake*);
 
-bool snakeAdvance(Snake*);
+bool snakeAdvance(Snake*, Vector*, uint8_t**);
 
 
 #endif

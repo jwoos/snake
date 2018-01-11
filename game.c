@@ -156,7 +156,7 @@ void gameEndScreenDebug(void) {
 	// segfaulting
 	for (j = 0; j < Config.items -> size; j++) {
 		position = vectorGet(Config.items, j);
-		mvprintw(5 + j, 1, "item position %d: %d %d", j, position -> x, position -> y);
+		mvprintw(5 + j + i, 1, "item position %d: %d %d", j, position -> x, position -> y);
 	}
 	mvprintw(i + j + 5, 1, "RT Signals handled: %d", Config.sigCount);
 	mvprintw(i + j + 6, 1, "Press any key to quit");

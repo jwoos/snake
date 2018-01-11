@@ -33,12 +33,14 @@ bool snakeCheckBoundary(Snake* snake) {
 	}
 
 	// it hit itself
-	Position* current;
-	for (uint64_t i = 1; i < snake -> body -> size; i++) {
-		current = vectorGet(snake -> body, i);
+	if (!snake -> modified) {
+		Position* current;
+		for (uint64_t i = 1; i < snake -> body -> size; i++) {
+			current = vectorGet(snake -> body, i);
 
-		if (current -> x == head -> x && current -> y == head -> y) {
-			okay = false;
+			if (current -> x == head -> x && current -> y == head -> y) {
+				okay = false;
+			}
 		}
 	}
 
@@ -49,6 +51,7 @@ void snakeAdd(Snake* snake) {
 	Vector* body = snake -> body;
 	Position* tail = vectorGet(body, body -> size - 1);
 	vectorPush(body, positionConstruct(tail -> x, tail -> y));
+	snake -> modified = true;
 }
 
 void snakeRender(Snake* snake) {
@@ -61,7 +64,7 @@ void snakeRender(Snake* snake) {
 }
 
 // FIXME it should set backwards so as not to propagate one value
-bool snakeAdvance(Snake* snake) {
+bool snakeAdvance(Snake* snake, Vector* items, uint8_t** board) {
 	bool okay = true;
 
 	Vector* body = snake -> body;
@@ -95,6 +98,20 @@ bool snakeAdvance(Snake* snake) {
 
 		default:
 			okay = false;
+	}
+
+	// there's an item, grow
+	if (board[headPosition -> y][headPosition -> x] == 1) {
+		for (uint32_t i = 0; i < items -> size; i++) {
+			Position* item = vectorGet(items, i);
+
+			if (item -> x == headPosition -> x && item -> y == headPosition -> y) {
+				vectorDelete(items, i, positionDeconstruct);
+			}
+		}
+
+		board[headPosition -> y][headPosition -> x] = 0;
+		snakeAdd(snake);
 	}
 
 	return okay;

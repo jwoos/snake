@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
 			break;
 		}
 
-		okay = snakeAdvance(snake);
+		okay = snakeAdvance(snake, Config.items, Config.board);
 
 		refresh();
 		okay = snakeCheckBoundary(snake);
